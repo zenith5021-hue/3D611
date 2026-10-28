@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>계절의 변화 3D 책</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap">
+<style>
+/* 개념: 책상 위 매트에 펼쳐 둔 하드커버 책. 글은 책장에 인쇄되고, 오른쪽 쪽에서 잉크 그림이 솟아오르며 에너지는 빛나는 통에 담긴다. */
+:root{
+  color-scheme: light;
+  --desk:#d8cfbf; --ink:#1d2233; --ink-soft:#5b6072; --red:#b23a2e;
+  --glass:rgba(252,250,245,.72); --glass-line:rgba(255,255,255,.75);
+  --paper:#fbf9f3; --paper-2:#f1ead9;
+  --pot:#8a4dff; --kin:#1f7bff; --heat:#ff7a1a; --light:#f2b400; --elec:#14a3a0;
+  --serif:"Gowun Batang","Nanum Myeongjo","Apple SD Gothic Neo",serif;
+  --hand:"Nanum Pen Script","Gowun Batang",cursive;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--desk);color:var(--ink);overflow:hidden}
+body{font-family:var(--serif);padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
+  border:1px solid var(--glass-line);box-shadow:0 12px 32px -14px rgba(40,34,22,.45),inset 0 1px 0 rgba(255,255,255,.85)}
+
+.chip{position:fixed;top:calc(env(safe-area-inset-top, 0px) + 14px);left:max(16px, env(safe-area-inset-left, 0px));
+  border-radius:999px;padding:7px 16px 7px 12px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.chip i{width:14px;height:14px;border-radius:3px;background:linear-gradient(135deg,#f2b33d 50%,#3f7f8f 50%);display:block}
+
+.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
+  border-radius:999px;display:flex;align-items:center;gap:2px;padding:6px 10px;max-width:calc(100% - 32px);width:720px}
+.bar button{background:none;border:0;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.bar button:hover{background:rgba(29,34,51,.07)}
+.bar .vb[aria-pressed="true"]{background:var(--ink)} .bar .vb[aria-pressed="true"] svg{stroke:#fbf9f3}
+.bar svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cap{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:0 6px;font-size:15px;line-height:1.25}
+.cap .no{color:var(--red);font-weight:700;flex:none}
+.cap .tx{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.steps{display:flex;gap:5px;flex:none;padding-right:6px}
+.steps button{width:8px;height:8px;border-radius:99px;background:rgba(29,34,51,.25);padding:0}
+.steps button.on{width:22px;background:var(--ink)}
+.sep{width:1px;height:24px;background:rgba(29,34,51,.15);margin:0 4px;flex:none}
+
+.panel{position:fixed;border-radius:18px;padding:18px 20px;max-height:calc(100% - 140px);overflow:auto;width:min(380px, calc(100% - 32px))}
+#menu{left:max(16px, env(safe-area-inset-left, 0px));top:calc(env(safe-area-inset-top, 0px) + 64px)}
+#teach{right:max(16px, env(safe-area-inset-right, 0px));top:calc(env(safe-area-inset-top, 0px) + 64px);width:min(440px, calc(100% - 32px))}
+.panel h2{font-size:22px;margin:2px 0 10px;text-wrap:balance}
+.panel h3{font-size:16px;margin:16px 0 4px}
+.panel p,.panel li{font-size:14.5px;line-height:1.7;margin:4px 0}
+.panel ul{padding-left:1.1em;margin:4px 0}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--red);font-weight:700;margin:0}
+.toc{list-style:none;margin:6px 0 0;padding:0}
+.toc button{width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(29,34,51,.12);padding:12px 2px;display:grid;grid-template-columns:2.6em 1fr auto;gap:6px;align-items:baseline}
+.toc button:hover .tt{text-decoration:underline}
+.toc .n{color:var(--red);font-weight:700}
+.toc .tt{font-size:17px}
+.toc .st{font-size:12px;color:var(--ink-soft)}
+.toc button[aria-current="true"] .tt{font-weight:700}
+.x{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(29,34,51,.06)}
+.lnk{background:none;border:1px solid rgba(29,34,51,.25);border-radius:999px;padding:6px 14px;font-size:13px;margin-top:10px}
+
+#flap{position:fixed;top:50%;transform:translateY(-50%);left:max(16px, calc(26% - 230px));width:min(460px, calc(100% - 32px));
+  border-radius:16px;padding:22px 24px;max-height:calc(100% - 150px);overflow:auto;background:rgba(253,252,248,.94)}
+#flap .verdict{font-size:17px;font-weight:700;margin:6px 0 10px}
+#flap .good{color:#2b7a4b} #flap .miss{color:var(--red)}
+#flap p{font-size:15.5px;line-height:1.75;margin:8px 0}
+.formula{font-size:15px;background:var(--paper-2);border-left:3px solid var(--ink);padding:8px 12px;margin:10px 0;overflow-x:auto;white-space:nowrap;font-style:italic}
+.small{font-size:13px!important;color:var(--ink-soft)}
+.chal{border-top:1px dashed rgba(29,34,51,.25);margin-top:14px;padding-top:10px}
+.chal .hand{font-family:var(--hand);font-size:22px;line-height:1.3}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.row input{width:120px;font:inherit;font-size:16px;padding:6px 10px;border:1px solid rgba(29,34,51,.35);border-radius:8px;background:#fff}
+.btn{border:1px solid var(--ink);background:var(--ink);color:#fbf9f3;border-radius:999px;padding:6px 16px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--ink);font-size:15px;padding:6px 18px}
+.note{font-size:14px;min-height:1.4em;color:var(--ink-soft)}
+
+#hud{position:fixed;top:calc(env(safe-area-inset-top, 0px) + 14px);right:max(16px, env(safe-area-inset-right, 0px));width:min(270px, calc(100% - 32px));border-radius:16px;padding:10px 14px 12px}
+.hud-h{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.hud-h button{border:1px solid rgba(29,34,51,.2);background:none;border-radius:999px;font-size:12px;padding:2px 10px}
+#hudB h4{margin:10px 0 4px;font-size:11.5px;letter-spacing:.12em;color:var(--red)}
+.hr{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:14.5px;line-height:1.55;border-top:1px solid rgba(29,34,51,.08)}
+.hr span{color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px}
+.hr i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.hr b{font-variant-numeric:tabular-nums;font-size:16.5px;white-space:nowrap}
+.hr.sum{border-top:1.5px solid rgba(29,34,51,.35)}
+.seg{display:inline-flex;gap:4px;align-items:center}
+.seg b{min-width:52px;text-align:center}
+.seg button,.hbtns button{border:1px solid rgba(29,34,51,.3);background:rgba(255,255,255,.55);border-radius:999px;min-width:30px;height:28px;font-size:13px;padding:0 10px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fbf9f3;border-color:var(--ink)}
+.hbtns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.hbtns button{flex:1 0 auto;height:32px;font-size:14px;white-space:nowrap}
+.hbtns button.pri{background:var(--ink);color:#fbf9f3;border-color:var(--ink)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom, 0px) + 82px);border-radius:999px;padding:8px 16px;font-size:14px;transition:opacity .6s;pointer-events:none;white-space:nowrap;max-width:calc(100% - 32px);overflow:hidden;text-overflow:ellipsis}
+#loading{position:fixed;inset:0;display:grid;place-items:center;font-size:18px;color:var(--ink-soft);background:var(--desk);transition:opacity .6s}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (max-width:640px){ .bar{padding:6px 6px} .bar button{width:36px;height:36px} .cap .tx{-webkit-line-clamp:1} }
+@media (max-width:560px){ #hud{top:auto;bottom:calc(env(safe-area-inset-bottom, 0px) + 84px);width:210px}  .steps{display:none} .cap{font-size:14px} #flap{left:50%;transform:translate(-50%,-50%)} }
+@media (prefers-reduced-motion: reduce){ #toast,#loading{transition:none} }
+</style>
+
+<canvas id="c" tabindex="0" aria-label="펼친 3D 책. 끌어서 돌리고 휠이나 두 손가락으로 확대합니다."></canvas>
+<div id="loading">책을 펼치는 중…</div>
+<div class="chip glass"><i></i>계절의 변화</div>
+
+<div class="bar glass" role="toolbar" aria-label="책 넘기기">
+  <button id="bMenu" aria-label="차례"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h11"/></svg></button>
+  <button id="bPrev" aria-label="앞 장"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button id="bPlay" aria-label="장면 따라가기"><svg viewBox="0 0 24 24" id="playIco"><path d="M8 5l11 7-11 7z" style="fill:var(--ink);stroke:none"/></svg></button>
+  <div class="cap"><span class="no" id="capNo">1</span><span class="tx" id="capTx"></span></div>
+  <div class="steps" id="steps"></div>
+  <button id="bNext" aria-label="다음 장"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <span class="sep"></span>
+  <button id="bRead" class="vb" aria-pressed="false" aria-label="글 읽기 시점" title="글 읽기 (왼쪽 쪽 더블클릭, R)"><svg viewBox="0 0 24 24"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1V19c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5V20"/></svg></button>
+  <button id="bExp" class="vb" aria-pressed="false" aria-label="실험 보기" title="실험 보기 (오른쪽 그림 더블클릭, E)"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6.5L4.6 18.2A2 2 0 0 0 6.3 21h11.4a2 2 0 0 0 1.7-2.8L14 9.5V3"/><path d="M7.5 15h9"/></svg></button>
+  <button id="bPan" class="vb" aria-pressed="false" aria-label="끌어서 화면 옮기기" title="켜면 끌 때 화면이 옮겨집니다 (Shift+끌기도 됩니다)"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M12 3 9.5 5.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5"/></svg></button>
+  <button id="bTeach" aria-label="교사용 메모"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/></svg></button>
+</div>
+
+<section id="hud" class="glass" aria-label="실험 값"><div class="hud-h"><b>실험 값</b><button id="hudT" aria-expanded="true" aria-label="실험 값 접기">접기</button></div><div id="hudB"></div></section>
+<section id="menu" class="panel glass" hidden aria-label="차례"></section>
+<section id="teach" class="panel glass" hidden aria-label="교사용 메모"></section>
+<section id="flap" class="glass" hidden aria-live="polite"></section>
+<div id="toast" class="glass" style="opacity:0"></div>
+<div class="sr" id="sr" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const G = 9.8, PI = Math.PI;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const easeBack = t => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+const f2 = v => (Math.abs(v) < 5e-4 ? 0 : v).toFixed(2);
+const COL = { ink: 0x1d2233, paper: 0xfbf9f3, pot: 0x8a4dff, kin: 0x1f7bff, heat: 0xff7a1a, light: 0xf5b800, elec: 0x14a3a0 };
+const INK = '#1d2233', SOFT = '#5b6072', RED = '#b23a2e', HANDC = '#2b3763';
+const SERIF = '"Gowun Batang", "Nanum Myeongjo", serif', HAND = '"Nanum Pen Script", "Gowun Batang", cursive';
+
+/* ---------- 저장 ---------- */
+const KEY = 'seasons-book-3d-v1';
+let prog = { ch1: {}, ch2: {}, ch3: {}, ch4: {} };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) prog = Object.assign(prog, s); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(prog)); } catch (e) {} };
+
+/* ---------- 렌더러 ---------- */
+const canvas = $('#c');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); }
+catch (e) { $('#loading').textContent = '이 브라우저에서는 3D 그림을 그릴 수 없습니다. 그래픽 가속을 켜거나 다른 브라우저로 열어 주세요.'; return; }
+const DPR = Math.min(devicePixelRatio || 1, 2);
+renderer.setPixelRatio(DPR);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const ANISO = renderer.capabilities.getMaxAnisotropy();
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xd6ccbb);
+const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.05, 80);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = .08; controls.minDistance = .9; controls.maxDistance = 11;
+controls.maxPolarAngle = 1.32; controls.screenSpacePanning = true; controls.rotateSpeed = .7;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xcabfae, .84));
+const sun = new THREE.DirectionalLight(0xfff3e2, .34);
+sun.position.set(-4.5, 8, -3.2); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 22 });
+sun.shadow.bias = -0.0006; sun.shadow.radius = 4; scene.add(sun);
+/* ---------- 텍스처 ---------- */
+const mkCanvas = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+const tex = c => { const t = new THREE.CanvasTexture(c); t.anisotropy = ANISO; return t; };
+function noiseFill(g, w, h, base, amt, n) { g.fillStyle = base; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < n; i++) { g.fillStyle = `rgba(${Math.random() < .5 ? '255,255,255' : '60,50,40'},${Math.random() * amt})`; g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 2); } }
+const woodTex = (() => { const c = mkCanvas(1024, 1024), g = c.getContext('2d'); g.fillStyle = '#ddd3c2'; g.fillRect(0, 0, 1024, 1024);
+  for (let i = 0; i < 260; i++) { const y = Math.random() * 1024, a = Math.random() * .09, w = 1 + Math.random() * 4;
+    g.strokeStyle = Math.random() < .55 ? `rgba(120,95,65,${a})` : `rgba(255,250,240,${a * 1.4})`; g.lineWidth = w; g.beginPath();
+    for (let x = 0; x <= 1024; x += 32) g.lineTo(x, y + Math.sin(x / 140 + i) * 3); g.stroke(); }
+  const t = tex(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2.4, 2.4); return t; })();
+const matTex = (() => { const c = mkCanvas(512, 512), g = c.getContext('2d'); noiseFill(g, 512, 512, '#a9b9b1', .12, 26000);
+  const t = tex(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(4, 3); return t; })();
+const hatchCanvas = (() => { const c = mkCanvas(128, 128), g = c.getContext('2d'); g.fillStyle = '#fbf9f3'; g.fillRect(0, 0, 128, 128);
+  g.strokeStyle = 'rgba(29,34,51,.78)'; g.lineWidth = 2.2; for (let i = -128; i < 256; i += 14) { g.beginPath(); g.moveTo(i, 128); g.lineTo(i + 128, 0); g.stroke(); } return c; })();
+const stripeCanvas = (() => { const c = mkCanvas(256, 128), g = c.getContext('2d'); g.fillStyle = '#fbf9f3'; g.fillRect(0, 0, 256, 128);
+  g.strokeStyle = 'rgba(29,34,51,.42)'; g.lineWidth = 1.6; for (let y = 6; y < 128; y += 11) { g.beginPath(); g.moveTo(0, y); g.lineTo(256, y); g.stroke(); } return c; })();
+const meridianCanvas = (() => { const c = mkCanvas(256, 128), g = c.getContext('2d'); g.fillStyle = '#fbf9f3'; g.fillRect(0, 0, 256, 128);
+  g.strokeStyle = 'rgba(29,34,51,.55)'; g.lineWidth = 1.6; for (let x = 4; x < 256; x += 13) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 128); g.stroke(); } return c; })();
+const blockCanvas = (() => { const c = mkCanvas(16, 256), g = c.getContext('2d'); g.fillStyle = '#f3efe4'; g.fillRect(0, 0, 16, 256);
+  g.fillStyle = 'rgba(120,110,90,.25)'; for (let y = 0; y < 256; y += 5) g.fillRect(0, y, 16, 1); return c; })();
+const dotTex = (() => { const c = mkCanvas(64, 64), g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.4, 'rgba(255,255,255,.8)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+function repTex(c, rx, ry) { const t = tex(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); return t; }
+
+/* ---------- 재질과 잉크 ---------- */
+const MAT = {
+  paper: new THREE.MeshLambertMaterial({ color: COL.paper }),
+  inkBack: new THREE.MeshBasicMaterial({ color: COL.ink, side: THREE.BackSide }),
+};
+const lineMats = [];
+function LM(color, w, extra = {}) { const m = new THREE.LineMaterial(Object.assign({ color, linewidth: w }, extra)); m.resolution.set(innerWidth, innerHeight); lineMats.push(m); return m; }
+const L = { ink: LM(COL.ink, 1.9), thin: LM(COL.ink, 1.2), dash: LM(COL.ink, 1.4, { dashed: true, dashSize: .035, gapSize: .025 }), dashK: LM(COL.heat, 1.6, { dashed: true, dashSize: .03, gapSize: .02 }) };
+function fatSeg(arr, mat = L.ink) { const g = new THREE.LineSegmentsGeometry(); g.setPositions(arr); const l = new THREE.LineSegments2(g, mat); if (mat.dashed) l.computeLineDistances(); return l; }
+function fatPoly(pts, mat = L.ink) { const a = []; for (let i = 0; i < pts.length - 1; i++) a.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z); return fatSeg(a, mat); }
+function fatEdges(geo, mat = L.ink, th = 20) { const e = new THREE.EdgesGeometry(geo, th); const a = Array.from(e.attributes.position.array); e.dispose(); return fatSeg(a, mat); }
+function hatchMat(rx, ry) { return new THREE.MeshLambertMaterial({ map: repTex(hatchCanvas, Math.max(1, rx), Math.max(1, ry)) }); }
+function shadowed(m) { m.castShadow = true; m.receiveShadow = true; return m; }
+function inkBox(w, h, d, hatch = true) {
+  const geo = new THREE.BoxGeometry(w, h, d), t = .09;
+  const mats = hatch ? [hatchMat(d / t, h / t), hatchMat(d / t, h / t), MAT.paper, MAT.paper, hatchMat(w / t, h / t), hatchMat(w / t, h / t)] : MAT.paper;
+  const g = new THREE.Group(); g.add(shadowed(new THREE.Mesh(geo, mats)), fatEdges(geo)); return g;
+}
+function hull(mesh, k, ky = k) { const h = new THREE.Mesh(mesh.geometry, MAT.inkBack); h.scale.set(k, ky, k); mesh.add(h); return h; }
+function circlePts(r, y = 0, n = 48) { return Array.from({ length: n + 1 }, (_, i) => new THREE.Vector3(Math.cos(i / n * PI * 2) * r, y, Math.sin(i / n * PI * 2) * r)); }
+const dotMats = {};
+const dotMat = c => dotMats[c] || (dotMats[c] = new THREE.SpriteMaterial({ map: dotTex, color: c, transparent: true, depthWrite: false }));
+function handLabel(text, h = .07, color = HANDC) {
+  const c = mkCanvas(8, 8), g = c.getContext('2d'), fs = 72, font = `${fs}px ${HAND}`;
+  g.font = font; const w = Math.ceil(g.measureText(text).width) + 16; c.width = w; c.height = fs + 12;
+  g.font = font; g.fillStyle = color; g.textBaseline = 'middle'; g.fillText(text, 8, c.height / 2 + 2);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex(c), transparent: true, depthTest: false })); s.scale.set(h * w / c.height, h, 1); s.renderOrder = 5; return s;
+}
+function glowPlane(color, size, op) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size), new THREE.MeshBasicMaterial({ map: dotTex, color, transparent: true, opacity: op, depthWrite: false }));
+  m.rotation.x = -PI / 2; return m;
+}
+
+class Particles {
+  constructor(parent) { this.parent = parent; this.list = []; }
+  add(p) { const s = new THREE.Sprite(dotMat(p.color)); s.position.copy(p.pos); s.scale.setScalar(p.size); this.parent.add(s); p.s = s; p.age = 0; this.list.push(p); return p; }
+  update(dt) { for (let i = this.list.length - 1; i >= 0; i--) { const p = this.list[i]; p.age += dt;
+      if (p.step) { if (p.step(p, dt) === false) { this.kill(i); continue; } } else p.s.position.addScaledVector(p.vel, dt);
+      if (p.life) { const k = 1 - p.age / p.life; if (k <= 0) { this.kill(i); continue; } p.s.scale.setScalar(p.size * (.3 + .7 * k)); } } }
+  kill(i) { this.parent.remove(this.list[i].s); this.list.splice(i, 1); }
+  clear() { while (this.list.length) this.kill(this.list.length - 1); }
+}
+
+/* ---------- 에너지 통 ---------- */
+class Jar {
+  constructor(parent, o) {
+    Object.assign(this, { r: .1, h: .28, v: 0, fill: 0, sub: '', unit: 'J', dec: 2 }, o);
+    const g = this.g = new THREE.Group(); g.position.set(o.x, o.y, o.z); parent.add(g);
+    const glass = new THREE.Mesh(new THREE.CylinderGeometry(this.r, this.r, this.h, 40, 1, true), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .16, depthWrite: false, side: THREE.DoubleSide }));
+    glass.position.y = this.h / 2; glass.renderOrder = 2; g.add(glass);
+    g.add(fatPoly(circlePts(this.r, 0)), fatPoly(circlePts(this.r, this.h)), fatPoly(circlePts(this.r * .82, this.h - .004), L.thin));
+    this.sil = new THREE.Group(); g.add(this.sil);
+    this.sil.add(fatSeg([this.r, 0, 0, this.r, this.h, 0, -this.r, 0, 0, -this.r, this.h, 0]));
+    const ri = this.r * .9, base = new THREE.Color(o.color);
+    this.liq = new THREE.Mesh(new THREE.CylinderGeometry(ri, ri, 1, 40).translate(0, .5, 0), new THREE.MeshBasicMaterial({ color: base }));
+    this.liq.position.y = .004; g.add(this.liq);
+    this.top = new THREE.Mesh(new THREE.CircleGeometry(ri, 40).rotateX(-PI / 2), new THREE.MeshBasicMaterial({ color: base.clone().lerp(new THREE.Color(0xffffff), .28) })); g.add(this.top);
+    this.spark = Array.from({ length: 6 }, (_, i) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xffffff, transparent: true, opacity: .8, depthWrite: false })); s.scale.setScalar(.022); s.userData.managed = true; g.add(s);
+      return { s, ph: Math.random(), a: Math.random() * PI * 2, rr: Math.random() * ri * .7 }; });
+    this.spill = glowPlane(o.color, this.r * 6, 0); this.spill.position.y = .003; g.add(this.spill);
+    // 이름표
+    this.cc = mkCanvas(720, 440); this.ct = tex(this.cc);
+    const cw = .33 * (o.cardScale || 1), ch = cw * 220 / 360;
+    this.card = shadowed(new THREE.Mesh(new THREE.PlaneGeometry(cw, ch), new THREE.MeshLambertMaterial({ map: this.ct })));
+    this.card.add(fatPoly([new THREE.Vector3(-cw / 2, -ch / 2, .001), new THREE.Vector3(cw / 2, -ch / 2, .001), new THREE.Vector3(cw / 2, ch / 2, .001), new THREE.Vector3(-cw / 2, ch / 2, .001), new THREE.Vector3(-cw / 2, -ch / 2, .001)], L.thin));
+    this.card.position.set(0, -ch / 2 - .045, this.r + .07); this.card.rotation.x = -.12; g.add(this.card);
+    this.lastTxt = ''; this.set(0);
+  }
+  set(v, cap) { if (cap) this.cap = cap; this.v = Math.max(0, v); this.fill = clamp(this.v / this.cap, 0, 1);
+    const txt = `${this.name}|${this.fmt()}|${this.cap}`; if (txt !== this.lastTxt) { this.lastTxt = txt; this.drawCard(); } }
+  drawCard() { const g = this.cc.getContext('2d'), W = 360, H = 220; g.setTransform(2, 0, 0, 2, 0, 0);
+    g.fillStyle = '#efe9db'; g.fillRect(0, 0, W, H);
+    g.fillStyle = INK; g.font = `700 40px ${SERIF}`; g.textBaseline = 'alphabetic'; let f = 40; while (g.measureText(this.name).width > W - 40 && f > 26) { f -= 2; g.font = `700 ${f}px ${SERIF}`; } g.fillText(this.name, 20, 50);
+    const txt = this.fmt();
+    g.font = `112px ${HAND}`; f = 112; while (g.measureText(txt).width > W - 36 && f > 60) { f -= 4; g.font = `${f}px ${HAND}`; } g.fillStyle = HANDC; g.fillText(txt, 18, 156);
+    g.font = `40px ${HAND}`; g.fillStyle = SOFT; g.fillText(this.sub || `통 하나에 ${this.cap.toLocaleString('ko-KR')} ${this.unit}`, 20, 204);
+    this.ct.needsUpdate = true; }
+  update(dt) {
+    this.shown = this.shown == null ? this.fill : this.shown + (this.fill - this.shown) * Math.min(1, dt * 10);
+    const hh = Math.max(.002, this.shown * (this.h - .02)); this.liq.scale.y = hh; this.top.position.y = hh + .0045; this.top.visible = this.shown > .003;
+    this.spill.material.opacity = .08 + .5 * this.shown;
+    this.spark.forEach(p => { p.ph = (p.ph + dt * .25) % 1; p.s.visible = this.shown > .04; p.s.position.set(Math.cos(p.a) * p.rr, .01 + p.ph * hh, Math.sin(p.a) * p.rr); });
+    const v = this.g.worldToLocal(camera.position.clone()); this.sil.rotation.y = popE > .5 ? Math.atan2(v.x, v.z) * popE : 0;
+  }
+  fmt() { const v = this.v, n = this.dec === 0 || v >= 1000 ? Math.round(v).toLocaleString('ko-KR') : f2(v); return `${n} ${this.unit}`; }
+  topLocal() { return this.g.position.clone().add(new THREE.Vector3(0, this.h + .01, 0)); }
+}
+
+/* ---------- 에너지 흐름 아치 ---------- */
+class Arc {
+  constructor(parent, a, b, ca, cb, lift = .22) {
+    const mid = a.clone().add(b).multiplyScalar(.5); mid.y = Math.max(a.y, b.y) + lift;
+    this.curve = new THREE.QuadraticBezierCurve3(a, mid, b);
+    const geo = new THREE.TubeGeometry(this.curve, 48, .012, 6, false), n = geo.attributes.position.count, col = new Float32Array(n * 3);
+    this.A = new THREE.Color(ca); this.B = new THREE.Color(cb); const c = new THREE.Color();
+    for (let i = 0; i < n; i++) { c.copy(this.A).lerp(this.B, Math.floor(i / 7) / 48); col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b; }
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    this.mat = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0, depthWrite: false });
+    this.mesh = new THREE.Mesh(geo, this.mat); this.mesh.renderOrder = 3; parent.add(this.mesh);
+    this.dots = Array.from({ length: 5 }, (_, i) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, transparent: true, opacity: 0, depthWrite: false })); s.scale.setScalar(.05); s.renderOrder = 4; s.userData.managed = true; parent.add(s); return { s, u: i / 5 }; });
+    this.level = 0; this.target = 0; this.dir = 1;
+  }
+  set(dir, lv) { this.dir = dir; this.target = clamp(lv, 0, 1); }
+  update(dt) { this.level += (this.target - this.level) * Math.min(1, dt * 5); const L = this.level;
+    this.mat.opacity = Math.min(.95, L * 1.8); this.mesh.visible = L > .01;
+    this.dots.forEach(d => { d.u = (d.u + dt * (.3 + .9 * L) * this.dir + 1) % 1; this.curve.getPoint(d.u, d.s.position);
+      d.s.material.opacity = Math.min(1, L * 2.2); d.s.material.color.copy(this.A).lerp(this.B, d.u).lerp(new THREE.Color(0xffffff), .35); d.s.visible = L > .01; }); }
+}
+
+/* ---------- 책상, 매트, 책 ---------- */
+const PW = 2.05, PD = 2.75, BT = .14, BASE = .035, TOP = BASE + BT + .002, TILT = .035;
+const desk = new THREE.Mesh(new THREE.PlaneGeometry(26, 18), new THREE.MeshLambertMaterial({ map: woodTex }));
+desk.rotation.x = -PI / 2; desk.position.y = -.03; desk.receiveShadow = true; scene.add(desk);
+(() => { const s = new THREE.Shape(), w = 7.4, d = 5.3, r = .25; s.moveTo(-w / 2 + r, -d / 2); s.lineTo(w / 2 - r, -d / 2); s.quadraticCurveTo(w / 2, -d / 2, w / 2, -d / 2 + r); s.lineTo(w / 2, d / 2 - r); s.quadraticCurveTo(w / 2, d / 2, w / 2 - r, d / 2); s.lineTo(-w / 2 + r, d / 2); s.quadraticCurveTo(-w / 2, d / 2, -w / 2, d / 2 - r); s.lineTo(-w / 2, -d / 2 + r); s.quadraticCurveTo(-w / 2, -d / 2, -w / 2 + r, -d / 2);
+  const g = new THREE.ShapeGeometry(s); const uv = g.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / w, uv.getY(i) / d);
+  const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ map: matTex })); m.rotation.x = -PI / 2; m.position.set(.1, -.02, .15); m.receiveShadow = true; scene.add(m); })();
+
+const book = new THREE.Group(); scene.add(book);
+const cover = shadowed(new THREE.Mesh(new THREE.BoxGeometry(2 * PW + .17, .024, PD + .14), new THREE.MeshLambertMaterial({ color: 0x3f7f8f })));
+cover.position.y = .012; book.add(cover);
+const coverEdge = new THREE.Mesh(new THREE.BoxGeometry(2 * PW + .2, .03, PD + .17), new THREE.MeshLambertMaterial({ color: 0x2c5f6b })); coverEdge.position.y = .008; book.add(coverEdge);
+const leftG = new THREE.Group(), rightG = new THREE.Group();
+leftG.position.x = -.012; leftG.rotation.z = -TILT; rightG.position.x = .012; rightG.rotation.z = TILT; book.add(leftG, rightG);
+function pageBlock(sign) { const geo = new THREE.BoxGeometry(PW, BT, PD), side = new THREE.MeshLambertMaterial({ map: repTex(blockCanvas, 1, 1) });
+  const m = shadowed(new THREE.Mesh(geo, [side, side, MAT.paper, MAT.paper, side, side])); m.position.set(sign * PW / 2, BASE + BT / 2, 0); return m; }
+leftG.add(pageBlock(-1)); rightG.add(pageBlock(1));
+const PCW = 1600, PCH = Math.round(1600 * PD / PW);
+const PK = 1.32; // 책장 이미지 배율 (글자 선명도)
+const leftCv = mkCanvas(PCW * PK, PCH * PK), rightCv = mkCanvas(PCW * PK, PCH * PK), leftTex = tex(leftCv), rightTex = tex(rightCv);
+const pageGeo = sign => new THREE.PlaneGeometry(PW, PD).rotateX(-PI / 2).translate(sign * PW / 2, TOP, 0);
+const leftPage = new THREE.Mesh(pageGeo(-1), new THREE.MeshLambertMaterial({ map: leftTex })); leftPage.receiveShadow = true; leftG.add(leftPage);
+const rightPage = new THREE.Mesh(pageGeo(1), new THREE.MeshLambertMaterial({ map: rightTex })); rightPage.receiveShadow = true; rightG.add(rightPage);
+// 책갈피 끈
+(() => { const r = new THREE.Mesh(new THREE.BoxGeometry(.055, .004, .62), new THREE.MeshLambertMaterial({ color: 0xd9822b })); r.position.set(.04, .1, PD / 2 + .2); r.rotation.x = .28; r.castShadow = true; book.add(r); })();
+// 넘어가는 책장
+const sheetPivot = new THREE.Group(); sheetPivot.position.x = .012; sheetPivot.visible = false; book.add(sheetPivot);
+const sheetFrontCv = mkCanvas(PCW * .7, PCH * .7), sheetBackCv = mkCanvas(PCW * .7, PCH * .7), sheetFrontTex = tex(sheetFrontCv), sheetBackTex = tex(sheetBackCv);
+const sheetF = shadowed(new THREE.Mesh(pageGeo(1).translate(0, .006, 0), new THREE.MeshLambertMaterial({ map: sheetFrontTex })));
+const sheetB = shadowed(new THREE.Mesh(pageGeo(-1).translate(0, .006, 0).applyMatrix4(new THREE.Matrix4().makeRotationZ(PI)), new THREE.MeshLambertMaterial({ map: sheetBackTex })));
+sheetPivot.add(sheetF, sheetB);
+// 그림이 서는 자리
+const diagram = new THREE.Group(); diagram.position.set(PW / 2, TOP, 0); rightG.add(diagram);
+const ZH = .76; // 평면일 때 그림의 바닥선이 놓이는 자리
+const hinge = new THREE.Group(); hinge.position.z = ZH; diagram.add(hinge);
+const flat = new THREE.Group(); hinge.add(flat);
+const content = new THREE.Group(); content.position.z = -ZH; flat.add(content);
+const hoverBox = new THREE.Mesh(new THREE.BoxGeometry(2.05, 1.7, 2.4), new THREE.MeshBasicMaterial({ visible: false }));
+hoverBox.position.set(0, .85, -.25); diagram.add(hoverBox);
+let popK = 0, popE = 0, lastHover = -1e9, hoverOn = false, touchHold = false, forceFlat = false;
+
+/* ---------- 내용 ---------- */
+const CHAP = {
+  ch1: { no: 1, title: '태양 고도와 그림자', run: '하루 동안 태양 고도, 그림자 길이, 기온',
+    intro: '태양 고도는 태양이 땅과 이루는 각입니다. 하루 동안 태양 고도가 바뀌면 그림자와 기온은 어떻게 바뀔까요?',
+    formula: '태양 고도 ↑   그림자 길이 ↓   기온 ↑', fcap: '태양 고도가 높아지면 그림자는 짧아지고 기온은 높아집니다.',
+    test: ['시각을 한 시간씩 넘기며 세 값을 기록합니다.', '‘하루 흐르기’로 그래프를 끝까지 그립니다.', '모양이 닮은 그래프와 반대인 그래프를 찾습니다.', '가장 높은 때의 시각을 서로 비교합니다.'],
+    q: '태양 고도가 가장 높은 때와 기온이 가장 높은 때는 같을까?',
+    opts: ['같은 시각이다', '기온이 더 늦게 가장 높다', '기온이 더 일찍 가장 높다', '기온은 하루 내내 같다'], ans: 1,
+    chal: '낮 12시 30분에 10 cm 막대의 그림자는 몇 cm일까?',
+    fig: '그림 1. 9월 23일 서울, 막대 길이 10 cm. 주황 선은 태양이 지나는 길, 주황 점선은 막대 끝을 지나는 햇빛입니다.', inst: '시각을 바꾸거나 ‘하루 흐르기’를 눌러 보세요.',
+    explain: `<p>하루 동안 태양은 동쪽에서 떠서 남쪽 하늘을 지나 서쪽으로 집니다. 태양 고도는 점점 높아지다가 낮 12시 30분 무렵 가장 높고, 다시 낮아집니다. 이때 태양은 정남쪽에 있으며, 이를 ‘태양이 남중했다’고 합니다.</p>
+      <div class="formula">태양 고도가 높아지면 → 그림자 길이는 짧아지고, 기온은 높아집니다.</div>
+      <p>그런데 기온은 오후 2시 30분 무렵에 가장 높습니다. 햇빛이 땅을 데우고, 데워진 땅이 다시 공기를 데우는 데 시간이 걸리기 때문입니다. 그래서 태양 고도 그래프와 기온 그래프는 모양이 닮았지만 가장 높은 때가 두 시간쯤 차이 납니다.</p>
+      <p class="small">태양 고도와 그림자 길이는 2023년 9월 23일 서울을 기준으로 계산한 값입니다. 기온은 맑은 가을날을 생각해 정한 어림값입니다.</p>`,
+    chalAns: 0, tol: .25, unit: 'cm', hint: '시각을 12:30에 맞추고 실험 값 카드에서 그림자 길이를 읽어 보세요.' },
+  ch2: { no: 2, title: '여름 해, 겨울 해', run: '계절별 태양의 남중 고도와 낮의 길이',
+    intro: '같은 낮 12시 30분이라도 여름과 겨울의 태양 높이는 다릅니다. 달마다 남중 고도와 낮의 길이를 알아봅시다.',
+    formula: '남중 고도 ↑   낮의 길이 ↑', fcap: '태양의 남중 고도가 높은 계절일수록 낮의 길이가 깁니다.',
+    test: ['날짜를 바꾸며 남중 고도와 낮의 길이를 기록합니다.', '‘하루 흐르기’로 해가 뜨고 지는 길을 봅니다.', '그래프에서 두 값이 가장 큰 달을 찾습니다.'],
+    q: '여름에서 겨울로 갈수록 남중 고도는 낮아진다. 낮의 길이는?',
+    opts: ['길어진다', '짧아진다', '변하지 않는다', '달마다 들쭉날쭉하다'], ans: 1,
+    chal: '6월 21일 서울의 태양 남중 고도는 몇 도일까?',
+    fig: '그림 2. 매월 21일 서울 하늘에서 태양이 지나는 길. 회색 점선은 하지, 춘분·추분, 동지입니다.', inst: '날짜를 바꾸고 ‘하루 흐르기’를 눌러 보세요.',
+    explain: `<p>태양의 남중 고도는 6월 무렵 가장 높고 12월 무렵 가장 낮습니다. 남중 고도가 높은 여름에는 해가 더 일찍 떠서 더 늦게 지고, 하늘을 지나는 길도 길어서 낮이 깁니다. 겨울에는 그 반대입니다.</p>
+      <div class="formula">여름: 남중 고도 높음, 낮이 김   ·   겨울: 남중 고도 낮음, 낮이 짧음</div>
+      <p>두 그래프는 모양이 거의 같습니다. 낮의 길이는 한 달에 한 번씩 갑자기 바뀌지 않고 날마다 조금씩 이어서 바뀝니다. 그래서 같은 계절 안에서도 값이 다릅니다.</p>
+      <p class="small">서울(북위 37.6°)을 기준으로 매월 21일의 값을 계산했습니다. 지역마다 조금씩 다릅니다.</p>`,
+    chalAns: 0, tol: 1, unit: '°', hint: '날짜를 6월 21일에 맞추고 실험 값 카드에서 남중 고도를 읽어 보세요.' },
+  ch3: { no: 3, title: '비스듬한 빛, 약한 빛', run: '태양 고도와 태양 에너지양',
+    intro: '손전등을 태양, 스마트 기기를 땅이라고 생각하고, 비추는 각을 바꾸며 빛의 세기를 재 봅시다.',
+    formula: '태양 고도 ↑   같은 넓이가 받는 에너지 ↑', fcap: '빛이 비스듬하면 같은 양의 빛이 넓게 퍼져 약해집니다.',
+    test: ['손전등을 끌거나 각도를 바꿔 숫자를 읽습니다.', '그림자가 짧을 때와 길 때를 비교합니다.', '네모 안에 닿는 빛줄기 수를 셉니다.'],
+    q: '손전등을 눕혀 막대의 그림자가 길어지면, 빛의 세기 숫자는?',
+    opts: ['커진다', '작아진다', '변하지 않는다'], ans: 1,
+    chal: '손전등의 각을 30°로 하면 빛의 세기 숫자는 얼마일까?',
+    fig: '그림 3. 손전등과 스마트 기기 사이는 늘 20 cm로 둡니다.', inst: '손전등을 끌어 올리거나 내려 보세요.',
+    explain: `<p>손전등을 세울수록(각이 클수록) 빛이 좁은 곳에 모여 센서가 받는 빛이 셉니다. 손전등을 눕힐수록 같은 빛이 넓게 퍼져서, 같은 넓이의 네모 안에 닿는 빛줄기가 줄고 숫자도 작아집니다.</p>
+      <div class="formula">손전등 = 태양   ·   스마트 기기 = 땅   ·   손전등의 각 = 태양 고도</div>
+      <p>태양도 마찬가지입니다. 태양 고도가 높은 여름에는 같은 넓이의 땅이 받는 태양 에너지가 많아 덥고, 태양 고도가 낮은 겨울에는 적어서 춥습니다.</p>
+      <p class="small">빛의 세기 숫자는 손전등을 똑바로 세웠을 때를 1,400으로 정한 모형값입니다. 실제 기기마다 숫자는 다릅니다.</p>`,
+    chalAns: 700, tol: 10, unit: 'lx', hint: '손전등의 각을 30°에 맞추고 스마트 기기 화면의 숫자를 읽어 보세요.' },
+  ch4: { no: 4, title: '기울어진 지구', run: '계절 변화의 원인',
+    intro: '지구본의 자전축을 세우거나 기울인 채 전등 둘레를 돌리며, 우리나라의 태양 남중 고도를 비교해 봅시다.',
+    formula: '자전축이 기울어진 채 공전  →  계절 변화', fcap: '지구의 위치에 따라 남중 고도와 낮의 길이, 받는 태양 에너지가 달라집니다.',
+    test: ['자전축을 수직으로 두고 가~라에서 그림자를 봅니다.', '자전축을 기울여 같은 방법으로 비교합니다.', '그림자가 가장 짧은 자리의 계절을 찾습니다.'],
+    q: '자전축을 수직으로 세우고 공전시키면 우리나라는 어떻게 될까?',
+    opts: ['계절이 그대로 바뀐다', '계절 변화가 생기지 않는다', '여름만 계속된다', '겨울만 계속된다'], ans: 1,
+    chal: '우리나라가 여름일 때 남반구의 오스트레일리아는 어떤 계절일까?',
+    chalOpts: ['여름', '겨울', '봄'], chalAns: 1,
+    fig: '그림 4. 전등은 태양, 지구본은 지구입니다. 자전축은 늘 같은 방향을 향합니다.', inst: '지구본을 끌어 돌리거나 자전축을 바꿔 보세요.',
+    explain: `<p>자전축이 수직이면 지구가 어느 자리에 있어도 우리나라의 남중 고도가 같습니다. 그림자 길이도 같고, 계절이 바뀌지 않습니다.</p>
+      <p>실제 지구는 자전축이 약 23.5° 기울어진 채 태양 둘레를 돕니다. 그래서 자리에 따라 남중 고도와 낮의 길이, 같은 넓이가 받는 태양 에너지가 달라지고 계절이 바뀝니다.</p>
+      <div class="formula">나 자리: 남중 고도 76° → 여름   ·   라 자리: 남중 고도 29° → 겨울</div>
+      <p>여름이 더운 것은 지구가 태양에 가까워서가 아닙니다. 북반구가 여름일 때 지구와 태양 사이는 오히려 조금 더 멉니다. 남반구에 있는 나라는 우리나라와 계절이 반대입니다.</p>
+      <p class="small">지구본에 붙인 태양 고도 측정기의 막대는 2 cm로 보고 계산했습니다.</p>`,
+    hint: '지구본을 나 자리(우리나라 여름)에 두고, 남반구가 받는 빛을 살펴보세요.' },
+};
+const IDS = ['ch1', 'ch2', 'ch3', 'ch4'];
+
+/* ---------- 책장 글 그리기 ---------- */
+let hot = { left: [], right: [] };
+function lines(g, text, maxW) { const out = []; let line = '';
+  for (const w of text.split(' ')) { const t = line ? line + ' ' + w : w; if (g.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; }
+  if (line) out.push(line); return out; }
+function wrap(g, text, x, y, maxW, lh) { for (const l of lines(g, text, maxW)) { g.fillText(l, x, y); y += lh; } return y; }
+const grainCv = (() => { const c = mkCanvas(PCW, PCH), g = c.getContext('2d'); for (let i = 0; i < 60000; i++) { g.fillStyle = `rgba(${Math.random() < .5 ? '255,255,255' : '90,80,60'},${Math.random() * .05})`; g.fillRect(Math.random() * PCW, Math.random() * PCH, 2, 2); } return c; })();
+function paper(g, side) {
+  const sc = g.canvas.width / PCW; g.setTransform(sc, 0, 0, sc, 0, 0);
+  g.fillStyle = '#fbf9f3'; g.fillRect(0, 0, PCW, PCH); g.drawImage(grainCv, 0, 0);
+  const sx = side === 'L' ? PCW - 170 : 0, gr = g.createLinearGradient(side === 'L' ? PCW : 0, 0, side === 'L' ? PCW - 170 : 170, 0);
+  gr.addColorStop(0, 'rgba(90,75,50,.26)'); gr.addColorStop(.35, 'rgba(90,75,50,.08)'); gr.addColorStop(1, 'rgba(90,75,50,0)'); g.fillStyle = gr; g.fillRect(sx, 0, 170, PCH);
+  const ox = side === 'L' ? 0 : PCW - 40, g2 = g.createLinearGradient(side === 'L' ? 0 : PCW, 0, side === 'L' ? 40 : PCW - 40, 0);
+  g2.addColorStop(0, 'rgba(90,75,50,.08)'); g2.addColorStop(1, 'rgba(90,75,50,0)'); g.fillStyle = g2; g.fillRect(ox, 0, 40, PCH);
+}
+function spaced(g, text, x, y, sp) { try { g.letterSpacing = sp + 'px'; } catch (e) {} g.fillText(text, x, y); try { g.letterSpacing = '0px'; } catch (e) {} }
+function tick(g, x, y, done) { g.beginPath(); g.arc(x, y, 20, 0, PI * 2);
+  if (done) { g.fillStyle = '#dd6c1c'; g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 5; g.beginPath(); g.moveTo(x - 9, y); g.lineTo(x - 2, y + 8); g.lineTo(x + 10, y - 8); g.stroke(); }
+  else { g.strokeStyle = SOFT; g.lineWidth = 3; g.stroke(); } }
+function section(g, X, W, y, title, done) { g.strokeStyle = 'rgba(29,34,51,.2)'; g.lineWidth = 2; g.beginPath(); g.moveTo(X, y - 62); g.lineTo(X + W, y - 62); g.stroke();
+  tick(g, X + 20, y - 15, done); g.fillStyle = INK; g.font = `700 46px ${SERIF}`; g.fillText(title, X + 56, y); }
+function fitFont(g, text, max, size, style) { let f = size; do { g.font = `${style} ${f}px ${SERIF}`; f -= 2; } while (g.measureText(text).width > max && f > 24); }
+function rrect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function drawLeft(cv, id, record) {
+  const g = cv.getContext('2d'), c = CHAP[id], p = prog[id], hs = [];
+  paper(g, 'L'); g.textBaseline = 'alphabetic';
+  const X = 440, W = 1060, CX = X + W / 2;
+  g.textAlign = 'center'; g.fillStyle = SOFT; g.font = `26px ${SERIF}`; spaced(g, `${c.no}장 · ${c.run}`, CX, 88, 3);
+  g.fillStyle = RED; g.font = `700 30px ${SERIF}`; spaced(g, `${c.no}장 · ${c.run}`, CX, 182, 4);
+  g.fillStyle = INK; g.font = `700 98px ${SERIF}`; g.fillText(c.title, CX, 288);
+  g.textAlign = 'left'; g.font = `40px ${SERIF}`; g.fillStyle = '#262b3b';
+  let y = wrap(g, c.intro, X, 368, W, 58) + 8;
+  g.strokeStyle = 'rgba(29,34,51,.25)'; g.lineWidth = 2; g.strokeRect(X, y, W, 150);
+  g.fillStyle = INK; fitFont(g, c.formula, W - 70, 56, 'italic'); g.fillText(c.formula, X + 35, y + 72);
+  g.font = `28px ${SERIF}`; g.fillStyle = SOFT; wrap(g, c.fcap, X + 35, y + 116, W - 70, 32);
+  const calcY = y - 10; y += 150 + 104;
+  // 예측하기
+  section(g, X, W, y, '예측하기', p.pick != null); y += 64;
+  g.fillStyle = INK; g.font = `500 40px ${SERIF}`; y = wrap(g, c.q, X, y, W, 54) + 4;
+  const bw = (W - 20) / 2, bh = 86;
+  c.opts.forEach((o, i) => { const bx = X + (i % 2) * (bw + 20), by = y + Math.floor(i / 2) * (bh + 16), sel = p.pick === i, done = !!p.open;
+    rrect(g, bx, by, bw, bh, 10); if (sel && !done) { g.fillStyle = INK; g.fill(); }
+    g.lineWidth = done && i === c.ans ? 6 : 2.4; g.strokeStyle = done && i === c.ans ? '#2b7a4b' : done && sel ? RED : 'rgba(29,34,51,.55)'; g.stroke();
+    g.fillStyle = sel && !done ? '#fbf9f3' : done && sel && i !== c.ans ? RED : INK; fitFont(g, o, bw - 44, 38, '500'); g.fillText(o, bx + 24, by + 56);
+    if (done && sel && i !== c.ans) { const tw = g.measureText(o).width; g.strokeStyle = RED; g.lineWidth = 3; g.beginPath(); g.moveTo(bx + 20, by + 44); g.lineTo(bx + 28 + tw, by + 44); g.stroke(); }
+    if (!done) hs.push({ x: bx, y: by, w: bw, h: bh, act: () => pick(i) }); });
+  y += 2 * (bh + 16) + 30;
+  g.font = `31px ${SERIF}`; g.fillStyle = SOFT;
+  g.fillText(p.open ? (p.pick === c.ans ? '예측이 맞았습니다.' : '초록 테두리가 답입니다.') : p.pick == null ? '답을 들추기 전에 하나를 고르세요.' : '예측을 골랐습니다. 오른쪽 그림에서 실험해 보세요.', X, y);
+  y += 112;
+  // 실험하기
+  section(g, X, W, y, '실험하기', !!p.ran); y += 64;
+  c.test.forEach((t, i) => { g.fillStyle = SOFT; g.font = `700 36px ${SERIF}`; g.fillText(`${i + 1}.`, X + 4, y); g.fillStyle = '#262b3b'; g.font = `36px ${SERIF}`; y = wrap(g, t, X + 52, y, W - 52, 50) + 8; });
+  y += 100;
+  // 확인하기
+  section(g, X, W, y, '확인하기', !!p.open); y += 30;
+  const fy = y, ready = p.pick != null || p.open, FH = 156;
+  g.fillStyle = '#f2ecdd'; g.fillRect(X - 6, fy, W, FH); g.strokeStyle = 'rgba(29,34,51,.38)'; g.lineWidth = 2; g.strokeRect(X - 6, fy, W, FH); g.strokeRect(X + 4, fy + 10, W - 20, FH - 20);
+  g.fillStyle = RED; g.font = `700 27px ${SERIF}`; spaced(g, '왜 그럴까?', X + 34, fy + 52, 4);
+  g.fillStyle = ready ? INK : '#9a9caa'; g.font = `46px ${SERIF}`; g.fillText(p.open ? '답과 까닭 다시 보기' : '덮개를 들춰 답 보기', X + 34, fy + 114);
+  if (!ready) { g.font = `italic 28px ${SERIF}`; g.fillStyle = SOFT; g.fillText('…예측을 먼저 고르세요.', X + 600, fy + 52); }
+  else { g.font = `48px ${HAND}`; g.fillStyle = HANDC; g.fillText('여기를 누르세요', X + W - 320, fy + 56);
+    g.strokeStyle = HANDC; g.lineWidth = 3.5; g.beginPath(); g.moveTo(X + W - 190, fy + 74); g.quadraticCurveTo(X + W - 140, fy + 104, X + W - 80, fy + 124); g.moveTo(X + W - 80, fy + 124); g.lineTo(X + W - 110, fy + 122); g.moveTo(X + W - 80, fy + 124); g.lineTo(X + W - 90, fy + 96); g.stroke(); }
+  hs.push({ x: X - 6, y: fy, w: W, h: FH, act: openFlap });
+  if (record) placeCalc(calcY);
+  g.fillStyle = RED; g.font = `700 24px ${SERIF}`; spaced(g, '도전', 40, PCH - 370, 5);
+  g.font = `46px ${HAND}`; g.fillStyle = HANDC; wrap(g, c.chal, 40, PCH - 316, 360, 52);
+  g.fillStyle = SOFT; g.font = `30px ${SERIF}`; g.textAlign = 'center'; g.fillText(String(c.no * 2), 1500, PCH - 50); g.textAlign = 'left';
+  if (record) hot.left = hs;
+}
+function pill(g, x, y, text, on, hs, act) { g.font = `38px ${SERIF}`; const w = g.measureText(text).width + 52;
+  g.lineWidth = 2.8; g.strokeStyle = INK; g.beginPath(); g.ellipse(x + w / 2, y - 13, w / 2, 37, 0, 0, PI * 2);
+  if (on) { g.fillStyle = INK; g.fill(); } g.stroke(); g.fillStyle = on ? '#fbf9f3' : INK; g.fillText(text, x + 26, y);
+  hs.push({ x: x - 8, y: y - 60, w: w + 16, h: 94, act }); return x + w; }
+function drawRight(cv, id, record) {
+  const g = cv.getContext('2d'), c = CHAP[id], hs = [];
+  paper(g, 'R'); g.textBaseline = 'alphabetic';
+  g.fillStyle = SOFT; g.font = `26px ${SERIF}`; g.textAlign = 'center'; spaced(g, `그림 ${c.no}`, PCW / 2, 88, 3); g.textAlign = 'left';
+  g.font = `italic 32px ${SERIF}`; g.fillStyle = SOFT; wrap(g, c.fig, 130, PCH - 440, 1340, 40);
+  g.font = `500 44px ${SERIF}`; g.fillStyle = INK; g.fillText(c.inst, 130, PCH - 330);
+  if (cur && cur.id === id && cur.controls) { let x = 130, y = PCH - 220;
+    for (const k of cur.controls()) { if (x > 980) { x = 130; y += 104; }
+      if (k.type === 'toggle') { g.font = `38px ${SERIF}`; g.fillStyle = SOFT; g.fillText(k.label, x, y); x += g.measureText(k.label).width + 20;
+        x = pill(g, x, y, k.off, !k.value, hs, () => k.set(false)) + 10; x = pill(g, x, y, k.on, k.value, hs, () => k.set(true)) + 50; }
+      else if (k.type === 'step') { g.font = `38px ${SERIF}`; g.fillStyle = SOFT; g.fillText(k.label, x, y); x += g.measureText(k.label).width + 20;
+        x = pill(g, x, y, '−', false, hs, () => k.dec()) + 14; g.font = `60px ${HAND}`; g.fillStyle = HANDC; g.fillText(k.value, x, y + 4); x += g.measureText(k.value).width + 14;
+        x = pill(g, x, y, '+', false, hs, () => k.inc()) + 50; }
+      else if (k.type === 'btn') { x = pill(g, x, y, k.label, false, hs, k.act) + 26; }
+    } }
+  g.fillStyle = SOFT; g.font = `30px ${SERIF}`; g.textAlign = 'center'; g.fillText(String(c.no * 2 + 1), PCW - 90, PCH - 36); g.textAlign = 'left';
+  if (record) hot.right = hs;
+}
+const CCW = 390, CCH = 860, calcCv = mkCanvas(CCW * 2, CCH * 2), calcTex = tex(calcCv);
+const calcPlane = new THREE.Mesh(new THREE.PlaneGeometry(CCW / PCW * PW, CCH / PCH * PD).rotateX(-PI / 2), new THREE.MeshLambertMaterial({ map: calcTex, transparent: true }));
+leftG.add(calcPlane);
+function placeCalc(cy) { calcPlane.position.set(-PW + (30 + CCW / 2) / PCW * PW, TOP + .001, -PD / 2 + (cy + CCH / 2) / PCH * PD); }
+function drawCalc() { const g = calcCv.getContext('2d'); g.setTransform(2, 0, 0, 2, 0, 0); g.clearRect(0, 0, CCW, CCH); if (!cur) return;
+  g.font = `50px ${HAND}`; g.fillStyle = HANDC; g.textBaseline = 'alphabetic'; let y = 52;
+  for (const l of cur.calc()) { let f = 50; while (g.measureText(l).width > CCW - 24 && f > 34) { f -= 2; g.font = `${f}px ${HAND}`; } g.fillText(l, 12, y); g.font = `50px ${HAND}`; y += 60; }
+  calcTex.needsUpdate = true; }
+function redraw(which = 'both') {
+  if (!cur) return;
+  if (which !== 'right') { drawLeft(leftCv, cur.id, true); leftTex.needsUpdate = true; drawCalc(); }
+  if (which !== 'left') { drawRight(rightCv, cur.id, true); rightTex.needsUpdate = true; }
+}
+
+/* ---------- 태양 계산 (서울) ---------- */
+const LAT = 37.57, LON = 126.98, D2R = PI / 180;
+function solar(n) { const g = 2 * PI / 365 * (n - 1);
+  const dec = (0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g)) / D2R;
+  const eot = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+  const noon = 12 + (135 - LON) / 15 - eot / 60, H0 = riseAngle(dec, -0.833);
+  return { dec, noon, rise: noon - H0 / 15, set: noon + H0 / 15, len: 2 * H0 / 15, noonAlt: 90 - LAT + dec }; }
+function riseAngle(dec, h0 = 0) { const c = (Math.sin(h0 * D2R) - Math.sin(LAT * D2R) * Math.sin(dec * D2R)) / (Math.cos(LAT * D2R) * Math.cos(dec * D2R)); return Math.acos(clamp(c, -1, 1)) / D2R; }
+function sunAt(dec, H) { // H: 남중에서 몇 시간 (오전은 음수) → 방향 (동 +x, 위 +y, 남 +z)
+  const h = H * 15 * D2R, d = dec * D2R, p = LAT * D2R;
+  const E = -Math.cos(d) * Math.sin(h), U = Math.sin(p) * Math.sin(d) + Math.cos(p) * Math.cos(d) * Math.cos(h), N = Math.cos(p) * Math.sin(d) - Math.sin(p) * Math.cos(d) * Math.cos(h);
+  return { v: new THREE.Vector3(E, U, -N).normalize(), alt: Math.asin(clamp(U, -1, 1)) / D2R, az: (Math.atan2(E, N) / D2R + 360) % 360 }; }
+const hm = t => { const m = Math.round(t * 60); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`; };
+const hmK = h => { const m = Math.round(h * 60); return `${Math.floor(m / 60)}시간 ${m % 60}분`; };
+const dirName = az => ['북쪽', '북동쪽', '동쪽', '남동쪽', '남쪽', '남서쪽', '서쪽', '북서쪽'][Math.round(az / 45) % 8];
+const W = (x, y, z) => [x + PW / 2, y + TOP, z];
+L.sun = LM(0xe48a00, 2.6); L.sunGhost = LM(0x8a8f9e, 1.3, { dashed: true, dashSize: .03, gapSize: .025 });
+L.ray = LM(0xe48a00, 1.6, { dashed: true, dashSize: .03, gapSize: .02 }); L.rayIn = LM(0xf2a600, 2.4); L.rayOut = LM(0xd9c79a, 1.1);
+const SHADOW_MAT = new THREE.MeshBasicMaterial({ color: 0x2a2f45, transparent: true, opacity: .5, depthWrite: false });
+
+function skyGround(root, cx, cz, R) {
+  const g = new THREE.Group(); g.position.set(cx, 0, cz); root.add(g);
+  const geo = new THREE.CylinderGeometry(R, R, .025, 72), disc = new THREE.Group();
+  disc.add(shadowed(new THREE.Mesh(geo, [hatchMat(46, 1), MAT.paper, MAT.paper])), fatEdges(geo, L.ink, 30)); disc.position.y = .0125; g.add(disc);
+  g.add(fatSeg([-R, .026, 0, R, .026, 0, 0, .026, -R, 0, .026, R], L.dash));
+  [['동', R + .08, 0], ['서', -R - .08, 0], ['남', 0, R + .08], ['북', 0, -R - .08]].forEach(([t, x, z]) => { const l = handLabel(t, .09); l.position.set(x, .05, z); g.add(l); });
+  // 하늘 반구: 옅은 막과 두 개의 큰 원
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(R, 48, 24, 0, PI * 2, 0, PI / 2), new THREE.MeshBasicMaterial({ color: 0xdfe9f2, transparent: true, opacity: .16, depthWrite: false, side: THREE.DoubleSide }));
+  dome.position.y = .026; dome.renderOrder = 1; g.add(dome);
+  const arcA = [], arcB = []; for (let i = 0; i <= 48; i++) { const t = PI * i / 48; arcA.push(new THREE.Vector3(0, .026 + R * Math.sin(t), R * Math.cos(t))); arcB.push(new THREE.Vector3(R * Math.cos(t), .026 + R * Math.sin(t), 0)); }
+  [arcA, arcB].forEach(a => { const l = fatPoly(a, L.sunGhost); l.computeLineDistances(); g.add(l); });
+  return g;
+}
+function sunBall(parent) { const s = new THREE.Mesh(new THREE.SphereGeometry(.042, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffb21a })); hull(s, 1.12);
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xffc640, transparent: true, opacity: .8, depthWrite: false })); glow.scale.setScalar(.2); s.add(glow); parent.add(s); return s; }
+function sunDrop(parent) { // 태양에서 땅으로 내린 점선과 바닥 점
+  const l = fatSeg([0, 0, 0, 0, .1, 0], L.sunGhost), d = new THREE.Mesh(new THREE.CircleGeometry(.012, 16).rotateX(-PI / 2), new THREE.MeshBasicMaterial({ color: 0xe48a00 })); parent.add(l, d);
+  return { set(p, on) { l.visible = d.visible = on; if (!on) return; l.geometry.setPositions([p.x, .027, p.z, p.x, p.y, p.z]); l.computeLineDistances(); d.position.set(p.x, .028, p.z); } }; }
+function shadowStrip(parent) { // 바닥에 눕는 그림자 띠 (원점에서 +x 쪽으로 뻗음)
+  const g = new THREE.Group(), m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-PI / 2).translate(.5, 0, 0), SHADOW_MAT); g.add(m); parent.add(g);
+  return { g, set(dirX, dirZ, len, wid) { g.visible = len > .001; g.rotation.y = Math.atan2(-dirZ, dirX); m.scale.set(Math.max(len, .0001), 1, wid); } }; }
+// 태양 고도 측정기: 받침판 + 막대 + 실 + 그림자
+function altDevice(parent, H, maxL, showLab = true) {
+  const g = new THREE.Group(); parent.add(g); const base = inkBox(.2, .012, .2, false); base.position.y = .031; g.add(base);
+  const top = .037, stick = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, H, 10), MAT.paper)); hull(stick, 1.5, 1); stick.position.y = top + H / 2; g.add(stick);
+  const sh = shadowStrip(g); sh.g.position.y = top + .001;
+  const str = fatSeg([0, top + H, 0, .1, top, 0], L.ray); g.add(str);
+  let lab = null, lastA = null;
+  return { g, top, set(v, alt) {
+    const up = alt > .5, hz = Math.hypot(v.x, v.z) || 1, dx = -v.x / hz, dz = -v.z / hz;
+    const len = up ? Math.min(H / Math.tan(alt * D2R), maxL) : 0; sh.set(dx, dz, len, .016);
+    str.visible = up; if (up) { str.geometry.setPositions([0, top + H, 0, dx * len, top, dz * len]); str.computeLineDistances(); }
+    const a = Math.round(alt); if (a !== lastA) { lastA = a; if (lab) { g.remove(lab); lab.material.map.dispose(); lab.material.dispose(); lab = null; }
+      if (up && showLab) { lab = handLabel(`${a}°`, .085, '#c45a10'); g.add(lab); } }
+    if (lab) lab.position.set(dx * Math.min(len, maxL) + .06, top + .05, dz * Math.min(len, maxL) + .04); } };
+}
+function thermometer(parent, x, z) {
+  const g = new THREE.Group(); g.position.set(x, 0, z); parent.add(g); const Hh = .24, y0 = .05;
+  const stand = inkBox(.07, .02, .07, false); stand.position.y = .01; g.add(stand);
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(.014, .014, Hh, 16, 1, true), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .35, depthWrite: false })); tube.position.y = y0 + Hh / 2; g.add(tube);
+  g.add(fatSeg([.014, y0, 0, .014, y0 + Hh, 0, -.014, y0, 0, -.014, y0 + Hh, 0]));
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(.024, 16, 12), new THREE.MeshBasicMaterial({ color: 0xd8382c })); bulb.position.y = y0; hull(bulb, 1.12); g.add(bulb);
+  const col = new THREE.Mesh(new THREE.CylinderGeometry(.008, .008, 1, 10).translate(0, .5, 0), new THREE.MeshBasicMaterial({ color: 0xd8382c })); col.position.y = y0; g.add(col);
+  const tk = []; for (let i = 0; i <= 5; i++) { const y = y0 + .02 + i * (Hh - .04) / 5; tk.push(.016, y, 0, .032, y, 0); } g.add(fatSeg(tk, L.thin));
+  const l = handLabel('기온', .06); l.position.set(0, y0 + Hh + .05, 0); g.add(l);
+  return { set(T) { col.scale.y = .02 + (Hh - .04) * clamp((T - 10) / 25, 0, 1); } };
+}
+class GraphCard { // 책장 위에 세운 그래프 종이
+  constructor(parent, o) { Object.assign(this, o); const g = this.g = new THREE.Group(); g.position.set(o.x, 0, o.z); parent.add(g);
+    const Wd = o.w, Hd = o.h; this.cv = mkCanvas(1400, Math.round(1400 * Hd / Wd)); this.t = tex(this.cv);
+    const card = this.card = shadowed(new THREE.Mesh(new THREE.PlaneGeometry(Wd, Hd), new THREE.MeshLambertMaterial({ map: this.t })));
+    card.add(fatPoly([new THREE.Vector3(-Wd / 2, -Hd / 2, .001), new THREE.Vector3(Wd / 2, -Hd / 2, .001), new THREE.Vector3(Wd / 2, Hd / 2, .001), new THREE.Vector3(-Wd / 2, Hd / 2, .001), new THREE.Vector3(-Wd / 2, -Hd / 2, .001)], L.thin));
+    card.position.y = o.y + Hd / 2; card.rotation.x = -.08; g.add(card);
+    for (const sx of [-1, 1]) { const leg = inkBox(.02, o.y + .1, .02, false); leg.position.set(sx * Wd * .38, (o.y + .1) / 2, -.04); g.add(leg); }
+    this.draw(o.rows.map(() => []), -1); }
+  draw(series, hi) { const c = this.cv, g = c.getContext('2d'), Wc = c.width, Hc = c.height, rows = this.rows, n = this.xs.length;
+    g.fillStyle = '#f7f3e8'; g.fillRect(0, 0, Wc, Hc);
+    const L0 = 190, R0 = 40, T0 = 34, B0 = 84, rh = (Hc - T0 - B0) / rows.length, X = i => L0 + (Wc - L0 - R0) * (n === 1 ? .5 : i / (n - 1));
+    rows.forEach((r, k) => { const top = T0 + k * rh + 54, bot = T0 + (k + 1) * rh - 18, Y = v => bot - (bot - top) * (v - r.min) / (r.max - r.min);
+      g.fillStyle = r.color; g.font = `700 44px ${SERIF}`; g.textBaseline = 'alphabetic'; g.fillText(r.name, L0, T0 + k * rh + 40);
+      g.strokeStyle = 'rgba(29,34,51,.16)'; g.lineWidth = 2; g.font = `36px ${SERIF}`; g.fillStyle = SOFT; g.textAlign = 'right';
+      for (let v = r.min; v <= r.max + 1e-6; v += r.step) { const y = Y(v); g.beginPath(); g.moveTo(L0, y); g.lineTo(Wc - R0, y); g.stroke(); g.fillText(String(v), L0 - 16, y + 12); }
+      g.textAlign = 'left'; g.strokeStyle = 'rgba(29,34,51,.5)'; g.beginPath(); g.moveTo(L0, top - 8); g.lineTo(L0, bot); g.lineTo(Wc - R0, bot); g.stroke();
+      if (hi >= 0) { g.strokeStyle = 'rgba(29,34,51,.12)'; g.lineWidth = 26; g.beginPath(); g.moveTo(X(hi), top - 6); g.lineTo(X(hi), bot); g.stroke(); }
+      const s = series[k] || []; g.strokeStyle = r.color; g.lineWidth = 6; g.beginPath(); let on = false;
+      s.forEach((v, i) => { if (v == null) { on = false; return; } const y = Y(clamp(v, r.min, r.max)); if (!on) { g.moveTo(X(i), y); on = true; } else g.lineTo(X(i), y); }); g.stroke();
+      s.forEach((v, i) => { if (v == null) return; g.fillStyle = r.color; g.beginPath(); g.arc(X(i), Y(clamp(v, r.min, r.max)), i === hi ? 15 : 10, 0, PI * 2); g.fill();
+        if (i === hi) { g.strokeStyle = INK; g.lineWidth = 4; g.stroke(); } }); });
+    g.fillStyle = INK; g.font = `36px ${SERIF}`; g.textAlign = 'center';
+    this.xs.forEach((t, i) => { if (this.xsEvery && i % this.xsEvery) return; g.fillText(t, X(i), Hc - 34); }); g.textAlign = 'left';
+    this.t.needsUpdate = true; }
+}
+function pedestal(root, x, z, h = .27) { const p = inkBox(.3, h, .24); p.position.set(x, h / 2, z); root.add(p); return h; }
+
+/* ================= 1장: 하루 동안 태양 고도, 그림자 길이, 기온 ================= */
+function chapter1(root) {
+  const S = solar(266), GX = -.42, GZ = .02, R = .5, ST = .12, T0 = 7.5, T1 = 17.5;
+  const HOURS = Array.from({ length: 11 }, (_, i) => T0 + i);
+  const temp = t => t <= 14.5 ? 19 + 8 * (1 - Math.cos(PI * clamp(t - 6, 0, 8.5) / 8.5)) / 2 : 27 - 5.5 * (1 - Math.cos(PI * Math.min(t - 14.5, 9.5) / 9.5)) / 2;
+  const at = t => { const s = sunAt(S.dec, t - S.noon); return { ...s, L: s.alt > .5 ? 10 / Math.tan(s.alt * D2R) : null, T: temp(t) }; };
+  CHAP.ch1.chalAns = +at(12.5).L.toFixed(1);
+  const st = { t: 9.5, play: false, rec: {}, dirty: true };
+  const ground = skyGround(root, GX, GZ, R);
+  const path = []; for (let i = 0; i <= 90; i++) { const t = S.rise + (S.set - S.rise) * i / 90; path.push(sunAt(S.dec, t - S.noon).v.multiplyScalar(R).add(new THREE.Vector3(0, .026, 0))); }
+  ground.add(fatPoly(path, L.sun));
+  HOURS.forEach(t => { const p = sunAt(S.dec, t - S.noon).v.multiplyScalar(R).add(new THREE.Vector3(0, .026, 0)), d = new THREE.Mesh(new THREE.SphereGeometry(.009, 8, 6), new THREE.MeshBasicMaterial({ color: COL.ink })); d.position.copy(p); ground.add(d);
+    if ([9.5, 12.5, 15.5].includes(t)) { const l = handLabel(hm(t), .065); l.position.copy(p).add(new THREE.Vector3(0, .06, 0)); ground.add(l); } });
+  const sun = sunBall(ground), drop = sunDrop(ground), dev = altDevice(ground, ST, R - .03), thermo = thermometer(root, .34, .48);
+  const graph = new GraphCard(root, { x: .5, z: -.3, y: .06, w: .88, h: 1.0, xs: HOURS.map(hm), xsEvery: 2, rows: [
+    { name: '태양 고도 (°)', color: '#d97800', min: 0, max: 60, step: 20 }, { name: '그림자 길이 (cm)', color: '#1f6fd6', min: 0, max: 60, step: 20 }, { name: '기온 (℃)', color: '#c63a2e', min: 15, max: 30, step: 5 }] });
+  function record(t) { const h = HOURS.find(x => Math.abs(x - t) < 1e-3); if (h != null && !st.rec[h]) { st.rec[h] = at(h); st.dirty = true; } }
+  function setT(t) { st.t = clamp(t, T0, T1); record(st.t); st.dirty = true; redraw('right'); }
+  function playDay() { if (st.t >= T1 - .01) st.t = T0; record(st.t); st.play = true; ran(); }
+  function reset() { st.rec = {}; st.play = false; setT(9.5); }
+  setT(9.5);
+  return { id: 'ch1',
+    controls: () => [{ type: 'step', label: '시각', value: hm(st.t), dec: () => { st.play = false; setT(Math.ceil(st.t - 1.001 - .5) + .5); ran(); }, inc: () => { st.play = false; setT(Math.floor(st.t + 1.001 - .5) + .5); ran(); } },
+      { type: 'btn', label: st.play ? '멈추기' : '하루 흐르기', primary: true, act: () => { if (st.play) { st.play = false; redraw('right'); } else { playDay(); redraw('right'); } } }, { type: 'btn', label: '처음으로', act: reset }],
+    hud() { const a = at(st.t); return { vars: [['날짜', '9월 23일 (서울)'], ['막대 길이', '10 cm']],
+      vals: [['태양 고도', `${a.alt.toFixed(0)}°`, 'sun'], ['그림자 길이', a.L ? `${a.L.toFixed(1)} cm` : '–', 'shadow'], ['기온', `${a.T.toFixed(1)} ℃`, 'temp'], ['태양이 있는 쪽', dirName(a.az)], ['기록한 시각', `${Object.keys(st.rec).length} / ${HOURS.length}`, 0, 1]] }; },
+    calc() { const ks = Object.keys(st.rec).map(Number).sort((a, b) => a - b); return ks.length ? ['기록', ...ks.map(h => { const r = st.rec[h]; return `${hm(h)} ${Math.round(r.alt)}° ${r.L.toFixed(1)}cm ${r.T.toFixed(0)}℃`; })] : ['기록', '시각을 바꾸면', '여기에 적힙니다']; },
+    update(dt) {
+      if (st.play) { const prev = st.t; st.t = Math.min(T1, st.t + dt * .9); HOURS.forEach(h => { if (prev < h && st.t >= h - 1e-6) record(h); }); st.dirty = true; if (st.t >= T1) { st.play = false; redraw('right'); } }
+      if (st.dirty) { st.dirty = false; const a = at(st.t); sun.position.copy(a.v).multiplyScalar(R).add(new THREE.Vector3(0, .026, 0)); sun.visible = a.alt > -1; drop.set(sun.position, a.alt > 0); dev.set(a.v, a.alt); thermo.set(a.T);
+        const ser = [HOURS.map(h => st.rec[h] ? st.rec[h].alt : null), HOURS.map(h => st.rec[h] ? st.rec[h].L : null), HOURS.map(h => st.rec[h] ? st.rec[h].T : null)];
+        const hi = HOURS.findIndex(h => Math.abs(h - st.t) < .5), key = Object.keys(st.rec).length + '|' + hi; if (key !== st.gk) { st.gk = key; graph.draw(ser, hi); } }
+    },
+    tour: [
+      { cap: '오전 9시 30분, 태양이 동쪽 하늘 낮은 곳에 있어 그림자가 깁니다.', cam: 'exp', act: () => { st.play = false; setT(9.5); } },
+      { cap: '시간이 흐르면 태양 고도가 높아지고 그림자는 짧아집니다.', cam: 'ground', act: () => { setT(9.5); playDay(); } },
+      { cap: '낮 12시 30분 무렵 태양이 정남쪽에 오고, 태양 고도가 가장 높습니다.', cam: 'ground', act: () => { st.play = false; setT(12.5); } },
+      { cap: '그래프를 보세요. 기온은 오후 2시 30분 무렵에 가장 높습니다.', cam: 'graph', act: () => { HOURS.forEach(record); setT(14.5); } },
+      { cap: '왼쪽 쪽에서 예측을 고르고 덮개를 들춰 보세요.', cam: 'read' }],
+    expView: { c: [0, .38, -.12], w: 2.05, h: 1.35 },
+    camPos: { exp: () => [W(GX + .9, 1.4, GZ + 2.35), W(GX + .6, .24, GZ - .12)], ground: () => [W(GX + .2, .62, GZ + 1.35), W(GX, .22, GZ)], graph: () => [W(.5, .66, .78), W(.5, .56, -.3)] } };
+}
+
+/* ================= 2장: 계절별 태양의 남중 고도와 낮의 길이 ================= */
+function chapter2(root) {
+  const MD = [21, 52, 80, 111, 141, 172, 202, 233, 264, 294, 325, 355], DATA = MD.map(solar), GX = -.42, GZ = .04, R = .5, ST = .12;
+  CHAP.ch2.chalAns = Math.round(DATA[5].noonAlt);
+  const season = m => ['겨울', '겨울', '봄', '봄', '봄', '여름', '여름', '여름', '가을', '가을', '가을', '겨울'][m];
+  const st = { m: 5, play: false, t: null, seen: {}, dirty: true };
+  const ground = skyGround(root, GX, GZ, R);
+  const pathOf = (d, n = 90) => { const pts = []; for (let i = 0; i <= n; i++) { const t = d.rise + (d.set - d.rise) * i / n; pts.push(sunAt(d.dec, t - d.noon).v.multiplyScalar(R).add(new THREE.Vector3(0, .026, 0))); } return pts; };
+  [[solar(172), '하지'], [solar(80), '춘분·추분'], [solar(355), '동지']].forEach(([d, n]) => { const l = fatPoly(pathOf(d), L.sunGhost); l.computeLineDistances(); ground.add(l);
+    const p = sunAt(d.dec, 0).v.multiplyScalar(R + .02).add(new THREE.Vector3(-.13, .03, 0)), lb = handLabel(n, .05, SOFT); lb.position.copy(p); ground.add(lb); });
+  let cur2 = null; const sun = sunBall(ground), drop = sunDrop(ground), dev = altDevice(ground, ST, R - .03, false);
+  const noonLine = fatSeg([0, .026, 0, 0, .3, .3], L.ray); ground.add(noonLine); let arcL = null, arcLab = null;
+  const graph = new GraphCard(root, { x: .5, z: -.3, y: .06, w: .88, h: .86, xs: MD.map((_, i) => `${i + 1}월`), xsEvery: 1, rows: [
+    { name: '남중 고도 (°)', color: '#d97800', min: 20, max: 80, step: 20 }, { name: '낮의 길이 (시간)', color: '#1f8a6a', min: 8, max: 16, step: 2 }] });
+  function setM(m) { st.m = (m + 12) % 12; st.seen[st.m] = 1; st.play = false; st.t = null; const d = DATA[st.m];
+    if (cur2) { ground.remove(cur2); cur2.geometry.dispose(); } cur2 = fatPoly(pathOf(d), L.sun); ground.add(cur2);
+    const na = d.noonAlt, rr = .17, pts = []; for (let i = 0; i <= 24; i++) { const a = na * D2R * i / 24; pts.push(new THREE.Vector3(0, .026 + rr * Math.sin(a), rr * Math.cos(a))); }
+    if (arcL) { ground.remove(arcL); arcL.geometry.dispose(); } arcL = fatPoly(pts, L.ink); ground.add(arcL);
+    if (arcLab) { ground.remove(arcLab); arcLab.material.map.dispose(); } arcLab = handLabel(`남중 고도 ${Math.round(na)}°`, .06, '#c45a10');
+    arcLab.position.set(.22, .03 + rr * Math.sin(na * D2R / 2), rr * Math.cos(na * D2R / 2) + .04); ground.add(arcLab);
+    const nv = sunAt(d.dec, 0).v.multiplyScalar(R); noonLine.geometry.setPositions([0, .026, 0, nv.x, nv.y + .026, nv.z]); noonLine.computeLineDistances();
+    st.dirty = true; redraw('right'); }
+  function playDay() { st.play = true; st.t = DATA[st.m].rise; ran(); redraw('right'); }
+  setM(5);
+  return { id: 'ch2',
+    controls: () => [{ type: 'step', label: '날짜', value: `${st.m + 1}월 21일`, dec: () => { setM(st.m - 1); ran(); }, inc: () => { setM(st.m + 1); ran(); } },
+      { type: 'btn', label: st.play ? '멈추기' : '하루 흐르기', primary: true, act: () => { if (st.play) { st.play = false; st.t = null; st.dirty = true; redraw('right'); } else playDay(); } },
+      { type: 'btn', label: '모든 달 찍기', act: () => { MD.forEach((_, i) => st.seen[i] = 1); st.dirty = true; ran(); } }, { type: 'btn', label: '처음으로', act: () => { st.seen = {}; setM(5); } }],
+    hud() { const d = DATA[st.m], t = st.t != null ? st.t : d.noon, s = sunAt(d.dec, t - d.noon), Ls = s.alt > .5 ? `${(10 / Math.tan(s.alt * D2R)).toFixed(1)} cm` : '–';
+      return { vars: [['장소', '서울'], ['계절', season(st.m)], ['막대 길이', '10 cm']],
+        vals: [['남중 고도', `${d.noonAlt.toFixed(0)}°`, 'sun'], ['낮의 길이', hmK(d.len), 'day'], ['해 뜨는 시각', hm(d.rise)], ['해 지는 시각', hm(d.set)],
+          [st.t != null ? `지금 ${hm(t)} 태양 고도` : '남중 때 그림자 길이', st.t != null ? `${Math.max(0, s.alt).toFixed(0)}°` : Ls, st.t != null ? 'sun' : 'shadow'], ['그래프에 찍은 달', `${Object.keys(st.seen).length} / 12`, 0, 1]] }; },
+    calc() { const ks = Object.keys(st.seen).map(Number).sort((a, b) => a - b); return ['기록', ...ks.map(m => `${m + 1}월 ${Math.round(DATA[m].noonAlt)}° ${hmK(DATA[m].len)}`)]; },
+    update(dt) { const d = DATA[st.m];
+      if (st.play) { st.t += dt * 1.6; if (st.t >= d.set) { st.t = d.set; st.play = false; redraw('right'); } st.dirty = true; }
+      if (st.dirty) { st.dirty = false; const t = st.t != null ? st.t : d.noon, s = sunAt(d.dec, t - d.noon); sun.position.copy(s.v).multiplyScalar(R).add(new THREE.Vector3(0, .026, 0)); drop.set(sun.position, s.alt > 0); dev.set(s.v, s.alt);
+        const key = Object.keys(st.seen).join(',') + '|' + st.m; if (key !== st.gk) { st.gk = key; graph.draw([MD.map((_, i) => st.seen[i] ? DATA[i].noonAlt : null), MD.map((_, i) => st.seen[i] ? DATA[i].len : null)], st.m); } }
+    },
+    tour: [
+      { cap: '6월 21일 무렵, 태양이 높이 떠서 하늘을 길게 지나갑니다.', cam: 'exp', act: () => { setM(5); playDay(); } },
+      { cap: '12월 21일 무렵에는 태양이 낮게 떠서 짧은 길을 지나갑니다.', cam: 'ground', act: () => { setM(11); playDay(); } },
+      { cap: '달마다 남중 고도와 낮의 길이를 그래프에 찍어 봅니다.', cam: 'graph', act: () => { MD.forEach((_, i) => st.seen[i] = 1); setM(2); } },
+      { cap: '두 그래프는 모양이 닮았습니다. 6월 무렵 가장 높고 12월 무렵 가장 낮습니다.', cam: 'graph', act: () => setM(5) },
+      { cap: '왼쪽 쪽에서 예측을 고르고 덮개를 들춰 보세요.', cam: 'read' }],
+    expView: { c: [0, .36, -.12], w: 2.05, h: 1.3 },
+    camPos: { exp: () => [W(GX + .9, 1.4, GZ + 2.35), W(GX + .6, .24, GZ - .12)], ground: () => [W(GX + .2, .62, GZ + 1.35), W(GX, .22, GZ)], graph: () => [W(.5, .6, .72), W(.5, .5, -.3)] } };
+}
+
+/* ================= 3장: 태양 고도와 빛의 세기 ================= */
+function chapter3(root) {
+  const S = new THREE.Vector3(.12, .047, -.3), D = .55, HS = .06, SQ = .065, LX0 = 1400;
+  const st = { a: 90, rec: {} };
+  const table = inkBox(1.75, .03, 1.0); table.position.set(0, .015, -.22); root.add(table);
+  // 스마트 기기
+  const scv = mkCanvas(340, 680), stex = tex(scv), phoneTop = new THREE.MeshLambertMaterial({ map: stex });
+  const pg = new THREE.BoxGeometry(.17, .016, .34), phone = new THREE.Group(); phone.add(shadowed(new THREE.Mesh(pg, [MAT.paper, MAT.paper, phoneTop, MAT.paper, MAT.paper, MAT.paper])), fatEdges(pg));
+  phone.position.set(S.x, .038, S.z + .12); root.add(phone);
+  const lens = new THREE.Mesh(new THREE.CircleGeometry(.008, 16).rotateX(-PI / 2), new THREE.MeshBasicMaterial({ color: COL.ink })); lens.position.set(S.x, S.y + .0015, S.z); root.add(lens);
+  const sqP = [[-SQ, -SQ], [SQ, -SQ], [SQ, SQ], [-SQ, SQ], [-SQ, -SQ]].map(([x, z]) => new THREE.Vector3(S.x + x, S.y + .002, S.z + z)); root.add(fatPoly(sqP, L.ink));
+  const sqL = handLabel('같은 넓이', .06); sqL.position.set(S.x + SQ + .14, S.y + .02, S.z - SQ); root.add(sqL);
+  function drawScreen(lx) { const g = scv.getContext('2d'); g.fillStyle = '#20263a'; g.fillRect(0, 0, 340, 680); g.fillStyle = '#9fb0d0'; g.font = `28px ${SERIF}`; g.textAlign = 'center';
+    g.fillText('조도 측정기', 170, 150); g.fillStyle = '#ffffff'; g.font = `700 92px ${SERIF}`; g.fillText(lx.toLocaleString('ko-KR'), 170, 330); g.font = `34px ${SERIF}`; g.fillStyle = '#c9d3e8'; g.fillText('lx', 170, 385);
+    g.fillStyle = '#39415a'; g.fillRect(50, 450, 240, 22); g.fillStyle = '#f5b800'; g.fillRect(50, 450, 240 * lx / LX0, 22); g.textAlign = 'left'; stex.needsUpdate = true; }
+  // 빨판 달린 막대
+  const P = new THREE.Vector3(S.x - .03, S.y, S.z + .12), rod = new THREE.Group(); rod.position.copy(P); root.add(rod);
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(.008, .02, .012, 16), MAT.paper); cup.position.y = .006; hull(cup, 1.2); rod.add(cup);
+  const stick = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.005, .005, HS, 10), MAT.paper)); stick.position.y = HS / 2; hull(stick, 1.6, 1); rod.add(stick);
+  const sh = shadowStrip(rod); sh.g.position.y = .001; const shL = handLabel('막대 4 cm', .055); shL.position.set(-.06, .03, .1); rod.add(shL);
+  // 손전등
+  const fl = new THREE.Group(); root.add(fl); const flMeshes = [];
+  const bg = new THREE.CylinderGeometry(.028, .028, .2, 20), body = shadowed(new THREE.Mesh(bg, [hatchMat(8, 1), MAT.paper, MAT.paper])); body.position.y = -.16; fl.add(body, (() => { const e = fatEdges(bg, L.ink, 30); e.position.y = -.16; return e; })());
+  const hg = new THREE.CylinderGeometry(.046, .03, .07, 24), head = shadowed(new THREE.Mesh(hg, MAT.paper)); head.position.y = -.035; fl.add(head, (() => { const e = fatEdges(hg, L.ink, 30); e.position.y = -.035; return e; })());
+  const glass = new THREE.Mesh(new THREE.CircleGeometry(.042, 24).rotateX(-PI / 2), new THREE.MeshBasicMaterial({ color: 0xfff3b0 })); glass.position.y = .001; fl.add(glass); flMeshes.push(body, head, glass);
+  const fGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xffe08a, transparent: true, opacity: .7, depthWrite: false })); fGlow.scale.setScalar(.16); fGlow.position.y = .01; fl.add(fGlow);
+  const flL = handLabel('손전등', .07); fl.add(flL);
+  const spot = glowPlane(COL.light, .2, .6); spot.position.copy(S).setY(S.y + .003); root.add(spot);
+  const raysIn = fatSeg([0, 0, 0, 0, 0, 0], L.rayIn), raysOut = fatSeg([0, 0, 0, 0, 0, 0], L.rayOut); root.add(raysIn, raysOut);
+  let arcG = null, arcLab = null;
+  const jarH = pedestal(root, .74, -.5), jar = new Jar(root, { x: .74, y: jarH, z: -.5, name: '받는 빛의 세기', color: COL.light, cap: LX0, unit: 'lx', dec: 0, sub: '센서가 받는 빛', cardScale: .95 });
+  let nIn = 0;
+  function setA(a) { st.a = clamp(Math.round(a / 5) * 5, 15, 90); const ar = st.a * D2R, d = new THREE.Vector3(Math.cos(ar), -Math.sin(ar), 0), Hp = S.clone().addScaledVector(d, -D);
+    fl.position.copy(Hp); fl.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d); flL.position.set(.09, -.2, 0);
+    const p = new THREE.Vector3(Math.sin(ar), Math.cos(ar), 0), pin = [], pout = []; nIn = 0;
+    for (let k = -3; k <= 3; k++) for (let j = -1; j <= 1; j++) { const s0 = Hp.clone().addScaledVector(p, k * .022).add(new THREE.Vector3(0, 0, j * .035)), tt = (s0.y - S.y) / Math.sin(ar), e = s0.clone().addScaledVector(d, tt);
+      const inside = Math.abs(e.x - S.x) <= SQ + 1e-6 && Math.abs(e.z - S.z) <= SQ + 1e-6; if (inside) nIn++; (inside ? pin : pout).push(s0.x, s0.y, s0.z, e.x, e.y, e.z); }
+    raysIn.geometry.setPositions(pin.length ? pin : [0, 0, 0, 0, 0, 0]); raysIn.visible = pin.length > 0; raysOut.geometry.setPositions(pout.length ? pout : [0, 0, 0, 0, 0, 0]); raysOut.visible = pout.length > 0;
+    spot.scale.set(1 / Math.sin(ar), 1, 1); spot.material.opacity = .25 + .5 * Math.sin(ar);
+    const len = Math.min(HS / Math.tan(ar), .3); sh.set(1, 0, len, .012);
+    const lx = Math.round(LX0 * Math.sin(ar)); drawScreen(lx); jar.set(lx); st.rec[st.a] = { lx, n: nIn, L: 4 / Math.tan(ar) };
+    // 각도 표시
+    const rr = .13, pts = []; for (let i = 0; i <= 20; i++) { const t = PI - ar * i / 20; pts.push(new THREE.Vector3(S.x + rr * Math.cos(t), S.y + .004 + rr * Math.sin(t), S.z)); }
+    if (arcG) { root.remove(arcG); arcG.geometry.dispose(); } arcG = fatPoly(pts, L.ink); root.add(arcG);
+    if (arcLab) { root.remove(arcLab); arcLab.material.map.dispose(); } arcLab = handLabel(`${st.a}°`, .09, '#c45a10'); const ma = PI - ar / 2; arcLab.position.set(S.x + .2 * Math.cos(ma), S.y + .02 + .2 * Math.sin(ma), S.z + .02); root.add(arcLab);
+    redraw('right'); }
+  setA(90); st.rec = { 90: st.rec[90] };
+  return { id: 'ch3',
+    controls: () => [{ type: 'step', label: '손전등의 각', value: `${st.a}°`, dec: () => { setA(st.a <= 20 ? 15 : Math.ceil(st.a / 10) * 10 - 10); ran(); }, inc: () => { setA(Math.floor(st.a / 10) * 10 + 10); ran(); } },
+      { type: 'btn', label: '처음으로', act: () => { st.rec = {}; setA(90); } }],
+    hud() { const ar = st.a * D2R, lx = Math.round(LX0 * Math.sin(ar)); return { vars: [['손전등과 기기 사이', '20 cm'], ['빨판 막대 길이', '4 cm']],
+      vals: [['빛의 세기', `${lx.toLocaleString('ko-KR')} lx`, 'light'], ['막대의 그림자 길이', `${(4 / Math.tan(ar)).toFixed(1)} cm`, 'shadow'], ['네모 안 빛줄기', `${nIn} / 21줄기`, 'sun']] }; },
+    calc() { const ks = Object.keys(st.rec).map(Number).sort((a, b) => b - a); return ['기록', ...ks.map(a => `${a}° ${st.rec[a].lx.toLocaleString('ko-KR')}lx ${st.rec[a].n}줄기`)]; },
+    dragTargets: () => flMeshes, plane: new THREE.Plane(new THREE.Vector3(0, 0, 1), -S.z),
+    dragStart() {}, dragMove(p) { const a = Math.atan2(p.y - S.y, S.x - p.x) / D2R; if (Number.isFinite(a)) { const v = clamp(a < 0 ? 90 : a, 15, 90); if (Math.round(v / 5) * 5 !== st.a) setA(v); } },
+    dragEnd() { ran(); },
+    update(dt) { jar.update(dt); },
+    tour: [
+      { cap: '손전등을 똑바로 세우면 빛이 좁은 곳에 모입니다.', cam: 'exp', act: () => setA(90) },
+      { cap: '손전등을 눕히면 같은 빛이 넓게 퍼집니다. 네모 안의 빛줄기를 세어 보세요.', cam: 'near', act: () => setA(30) },
+      { cap: '빛의 세기 숫자도 작아지고, 막대의 그림자는 길어졌습니다.', cam: 'phone' },
+      { cap: '손전등의 각은 태양 고도와 같습니다. 태양 고도가 낮으면 땅이 받는 에너지가 적습니다.', cam: 'exp', act: () => setA(60) },
+      { cap: '왼쪽 쪽에서 예측을 고르고 덮개를 들춰 보세요.', cam: 'read' }],
+    expView: { c: [0, .25, -.25], w: 1.8, h: 1.1 },
+    camPos: { near: () => [W(S.x - .1, .62, S.z + .95), W(S.x - .12, .2, S.z)], phone: () => [W(S.x, .7, S.z + .5), W(S.x, S.y, S.z + .06)] } };
+}
+
+/* ================= 4장: 계절 변화의 원인 ================= */
+function chapter4(root) {
+  const LC = new THREE.Vector3(-.16, .34, -.25), OR = .6, GR = .12, EPS = 23.44, KLAT = 37.5, MST = .03, PTS = [[0, '가'], [90, '나'], [180, '다'], [270, '라']];
+  const st = { th: 0, tilt: false, orbit: false, rec: { t: {}, v: {} } };
+  const posOf = th => new THREE.Vector3(LC.x + OR * Math.cos(th * D2R), LC.y, LC.z - OR * Math.sin(th * D2R));
+  // 전등
+  const lb = new THREE.CylinderGeometry(.09, .11, .03, 28), lbase = new THREE.Group(); lbase.add(shadowed(new THREE.Mesh(lb, [hatchMat(14, 1), MAT.paper, MAT.paper])), fatEdges(lb, L.ink, 30)); lbase.position.set(LC.x, .015, LC.z); root.add(lbase);
+  const pole = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.01, .01, LC.y - .1, 10), MAT.paper)); hull(pole, 1.5, 1); pole.position.set(LC.x, .03 + (LC.y - .1) / 2, LC.z); root.add(pole);
+  const sock = inkBox(.05, .05, .05, true); sock.position.set(LC.x, LC.y - .085, LC.z); root.add(sock);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(.065, 28, 18), new THREE.MeshBasicMaterial({ color: 0xfff1bf })); bulb.position.copy(LC); root.add(bulb);
+  const bg1 = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xffd36a, transparent: true, opacity: .9, depthWrite: false })); bg1.scale.setScalar(.5); bg1.position.copy(LC); root.add(bg1);
+  const lpL = handLabel('전등 (태양)', .07); lpL.position.set(LC.x, .06, LC.z + .2); root.add(lpL);
+  const floorGlow = glowPlane(0xffd36a, 1.25, .2); floorGlow.position.set(LC.x, .003, LC.z); root.add(floorGlow);
+  // 공전 길
+  const ring = new THREE.Group(); ring.position.set(LC.x, 0, LC.z); root.add(ring); const rl = fatPoly(circlePts(OR, .004, 96), L.dash); rl.computeLineDistances(); ring.add(rl);
+  PTS.forEach(([th, n]) => { const p = posOf(th), q = new THREE.Vector3(LC.x + (OR + .15) * Math.cos(th * D2R), .05, LC.z - (OR + .15) * Math.sin(th * D2R));
+    const c = fatPoly(circlePts(.03, .005, 24).map(v => v.add(new THREE.Vector3(p.x, 0, p.z))), L.ink); root.add(c); const l = handLabel(n, .12); l.position.copy(q); root.add(l); });
+  // 지구본
+  const gtc = mkCanvas(1024, 512), gtx = gtc.getContext('2d'); (() => { const g = gtx, Wm = 1024, Hm = 512, X = lo => (lo + 180) / 360 * Wm, Y = la => (90 - la) / 180 * Hm;
+    g.fillStyle = '#bcd8e4'; g.fillRect(0, 0, Wm, Hm);
+    const land = [[[-10, 36], [-9, 43], [0, 50], [10, 55], [20, 56], [30, 60], [40, 67], [60, 70], [80, 73], [100, 77], [120, 73], [140, 72], [160, 70], [180, 67], [175, 62], [160, 58], [150, 59], [142, 52], [140, 46], [132, 43], [129, 41], [129, 36], [126, 34.5], [126, 38], [122, 39], [121, 31], [120, 25], [110, 20], [106, 10], [100, 13], [98, 8], [103, 1], [98, 17], [92, 22], [88, 22], [80, 15], [77, 8], [73, 20], [66, 25], [57, 25], [50, 30], [48, 29], [55, 23], [59, 22], [52, 16], [43, 12], [35, 28], [34, 31], [35, 36], [28, 37], [27, 41], [22, 40], [20, 39], [14, 40], [12, 44], [8, 44], [3, 43], [-1, 37], [-6, 36]],
+      [[-17, 21], [-16, 12], [-8, 5], [5, 4], [9, 4], [10, -2], [13, -12], [12, -18], [18, -34], [25, -34], [32, -29], [35, -24], [40, -16], [40, -5], [44, 0], [51, 11], [43, 12], [37, 20], [33, 31], [20, 32], [10, 37], [-6, 36], [-10, 30]],
+      [[-168, 66], [-160, 70], [-140, 70], [-120, 72], [-95, 72], [-80, 70], [-70, 62], [-60, 55], [-56, 50], [-66, 45], [-70, 42], [-76, 35], [-81, 30], [-80, 25], [-90, 29], [-97, 26], [-97, 20], [-90, 18], [-87, 15], [-83, 9], [-79, 9], [-86, 13], [-92, 15], [-105, 20], [-112, 30], [-117, 33], [-124, 40], [-124, 48], [-135, 58], [-150, 60], [-165, 60]],
+      [[-80, 9], [-72, 12], [-62, 10], [-50, 0], [-35, -6], [-39, -15], [-48, -26], [-58, -35], [-65, -42], [-68, -52], [-74, -50], [-73, -40], [-71, -30], [-70, -18], [-76, -14], [-81, -5], [-80, 0], [-78, 7]],
+      [[114, -22], [122, -18], [130, -12], [137, -12], [142, -11], [146, -19], [153, -26], [151, -34], [145, -38], [138, -35], [131, -31], [124, -34], [115, -34]],
+      [[-55, 60], [-45, 60], [-20, 70], [-20, 80], [-40, 83], [-60, 80], [-70, 77]], [[130, 31], [135, 34], [140, 35], [142, 40], [141, 45], [140, 41], [136, 36], [132, 34]],
+      [[-180, -72], [-120, -74], [-60, -66], [0, -70], [60, -67], [120, -66], [180, -72], [180, -90], [-180, -90]]];
+    g.fillStyle = '#e6d9ad'; g.strokeStyle = 'rgba(29,34,51,.55)'; g.lineWidth = 2;
+    land.forEach(poly => { g.beginPath(); poly.forEach(([lo, la], i) => i ? g.lineTo(X(lo), Y(la)) : g.moveTo(X(lo), Y(la))); g.closePath(); g.fill(); g.stroke(); });
+    g.strokeStyle = 'rgba(29,34,51,.22)'; g.lineWidth = 1.5; for (let la = -60; la <= 60; la += 30) { g.beginPath(); g.moveTo(0, Y(la)); g.lineTo(Wm, Y(la)); g.stroke(); }
+    for (let lo = -180; lo < 180; lo += 30) { g.beginPath(); g.moveTo(X(lo), 0); g.lineTo(X(lo), Hm); g.stroke(); }
+    g.strokeStyle = '#c0392b'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, Y(0)); g.lineTo(Wm, Y(0)); g.stroke();
+    g.setLineDash([10, 8]); g.strokeStyle = 'rgba(192,57,43,.7)'; g.lineWidth = 2; [EPS, -EPS].forEach(la => { g.beginPath(); g.moveTo(0, Y(la)); g.lineTo(Wm, Y(la)); g.stroke(); }); g.setLineDash([]); })();
+  const gtex = tex(gtc), gmat = new THREE.ShaderMaterial({ uniforms: { map: { value: gtex }, lamp: { value: new THREE.Vector3() } },
+    vertexShader: 'varying vec2 vUv; varying vec3 vN; varying vec3 vP; void main(){ vUv = uv; vN = normalize(mat3(modelMatrix) * normal); vec4 wp = modelMatrix * vec4(position, 1.0); vP = wp.xyz; gl_Position = projectionMatrix * viewMatrix * wp; }',
+    fragmentShader: 'uniform sampler2D map; uniform vec3 lamp; varying vec2 vUv; varying vec3 vN; varying vec3 vP; void main(){ vec3 c = texture2D(map, vUv).rgb; float d = dot(normalize(vN), normalize(lamp - vP)); float k = 0.2 + 0.9 * smoothstep(-0.04, 0.2, d) * (0.78 + 0.22 * max(d, 0.0)); gl_FragColor = vec4(c * k, 1.0); }' });
+  const gpos = new THREE.Group(); root.add(gpos);
+  const stand = new THREE.Group(); gpos.add(stand); const sb = new THREE.CylinderGeometry(.05, .06, .02, 20); stand.add(shadowed(new THREE.Mesh(sb, MAT.paper)), fatEdges(sb, L.ink, 30)); stand.children.forEach(o => o.position.y = -LC.y + .01);
+  const srod = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.005, .005, LC.y - GR - .02, 8), MAT.paper)); srod.position.y = -LC.y + .02 + (LC.y - GR - .02) / 2; hull(srod, 1.6, 1); stand.add(srod);
+  const globe = new THREE.Group(); gpos.add(globe);
+  const gm = new THREE.Mesh(new THREE.SphereGeometry(GR, 56, 36), gmat); gm.castShadow = true; hull(gm, 1.035); globe.add(gm);
+  globe.add(fatSeg([0, -GR - .08, 0, 0, GR + .08, 0], L.ink));
+  const nl = handLabel('자전축', .055); nl.position.set(.07, GR + .1, 0); globe.add(nl);
+  const phiK = 2 * PI * (127 + 180) / 360, kEq = new THREE.Vector3(-Math.cos(phiK), 0, Math.sin(phiK)), kN = kEq.clone().multiplyScalar(Math.cos(KLAT * D2R)).setY(Math.sin(KLAT * D2R));
+  const mk = new THREE.Group(); mk.position.copy(kN).multiplyScalar(GR); mk.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), kN); globe.add(mk);
+  const dot = new THREE.Mesh(new THREE.CircleGeometry(.016, 20).rotateX(-PI / 2), new THREE.MeshBasicMaterial({ color: 0xffffff })); dot.position.y = .0015; mk.add(dot);
+  const dRing = fatPoly(circlePts(.016, .002, 20), L.ink); mk.add(dRing);
+  const kst = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.003, .003, MST, 8), new THREE.MeshBasicMaterial({ color: COL.ink }))); kst.position.y = MST / 2; mk.add(kst);
+  const ksh = shadowStrip(mk); ksh.g.position.y = .0025;
+  const kl = handLabel('우리나라', .065, '#c45a10'); kl.position.set(0, .07, 0); mk.add(kl);
+  const beam = fatSeg([0, 0, 0, 0, 0, 0], L.ray); root.add(beam);
+  const jarH = pedestal(root, .8, -.12), jar = new Jar(root, { x: .8, y: jarH, z: -.12, name: '받는 태양 에너지', color: COL.heat, cap: 100, unit: '%', dec: 0, sub: '같은 넓이의 땅', cardScale: .95 });
+  const Y = new THREE.Vector3(0, 1, 0), lampW = new THREE.Vector3();
+  let vals = {};
+  function place() {
+    const p = posOf(st.th); gpos.position.copy(p);
+    const e = st.tilt ? EPS * D2R : 0, a = new THREE.Vector3(0, Math.cos(e), Math.sin(e)), s = LC.clone().sub(p).normalize();
+    const sp = s.clone().addScaledVector(a, -s.dot(a)).normalize();
+    const q1 = new THREE.Quaternion().setFromUnitVectors(Y, a), k1 = kEq.clone().applyQuaternion(q1), q2 = new THREE.Quaternion().setFromUnitVectors(k1, sp);
+    globe.quaternion.copy(q2.multiply(q1));
+    const n = sp.clone().multiplyScalar(Math.cos(KLAT * D2R)).addScaledVector(a, Math.sin(KLAT * D2R)), alt = Math.asin(clamp(n.dot(s), -1, 1)) / D2R;
+    // 그림자: 측정기 기준 좌표에서 햇빛 방향
+    const qm = globe.quaternion.clone().multiply(mk.quaternion).invert(), sl = s.clone().applyQuaternion(qm), hz = Math.hypot(sl.x, sl.z) || 1;
+    ksh.set(-sl.x / hz, -sl.z / hz, Math.min(MST / Math.tan(Math.max(alt, 3) * D2R), .09), .006);
+    const kw = mk.position.clone().applyQuaternion(globe.quaternion).add(p); beam.geometry.setPositions([LC.x, LC.y, LC.z, kw.x, kw.y, kw.z]); beam.computeLineDistances();
+    const dec = st.tilt ? Math.asin(Math.sin(EPS * D2R) * Math.sin(st.th * D2R)) / D2R : 0;
+    vals = { alt, L: 2 / Math.tan(alt * D2R), len: 2 * riseAngle(dec, -0.833) / 15, en: Math.sin(alt * D2R) * 100, dec };
+    jar.set(vals.en);
+    const hit = PTS.find(([t]) => Math.abs(((st.th - t + 540) % 360) - 180) < 2.5); if (hit) { st.rec[st.tilt ? 't' : 'v'][hit[1]] = { alt, L: vals.L }; }
+  }
+  const nearest = () => PTS.reduce((b, x) => Math.abs(((st.th - x[0] + 540) % 360) - 180) < Math.abs(((st.th - b[0] + 540) % 360) - 180) ? x : b);
+  const seasonTxt = () => { if (!st.tilt) return '계절 변화 없음'; const n = nearest(), dd = Math.abs(((st.th - n[0] + 540) % 360) - 180); return dd < 10 ? { 가: '봄 (춘분 무렵)', 나: '여름 (하지 무렵)', 다: '가을 (추분 무렵)', 라: '겨울 (동지 무렵)' }[n[1]] : '계절이 바뀌는 중'; };
+  const posTxt = () => { const n = nearest(), dd = Math.abs(((st.th - n[0] + 540) % 360) - 180); return dd < 2.5 ? n[1] : `${n[1]} 근처`; };
+  function setTh(th) { st.th = (th % 360 + 360) % 360; place(); }
+  function goPt(dir) { st.orbit = false; const i = PTS.findIndex(x => x[1] === nearest()[1]), cur0 = PTS[i][0], dd = ((st.th - cur0 + 540) % 360) - 180;
+    let j = i; if (Math.abs(dd) < 2.5) j = (i + dir + 4) % 4; else if (dir > 0 && dd > 0) j = (i + 1) % 4; else if (dir < 0 && dd < 0) j = (i + 3) % 4; setTh(PTS[j][0]); ran(); redraw('right'); }
+  function setTilt(v) { st.tilt = v; place(); ran(); redraw('right'); }
+  setTh(0);
+  return { id: 'ch4',
+    controls: () => [{ type: 'toggle', label: '자전축', off: '수직', on: '기울임', value: st.tilt, set: setTilt },
+      { type: 'step', label: '자리', value: posTxt(), dec: () => goPt(-1), inc: () => goPt(1) },
+      { type: 'btn', label: st.orbit ? '멈추기' : '공전시키기', primary: true, act: () => { st.orbit = !st.orbit; if (st.orbit) ran(); redraw('right'); } },
+      { type: 'btn', label: '처음으로', act: () => { st.orbit = false; st.rec = { t: {}, v: {} }; st.tilt = false; setTh(0); redraw('right'); } }],
+    hud() { return { vars: [['우리나라 위도', '북위 37.5°'], ['모형 막대 길이', '2 cm']],
+      vals: [['계절', seasonTxt()], ['남중 고도', `${vals.alt.toFixed(0)}°`, 'sun'], ['그림자 길이', `${vals.L.toFixed(1)} cm`, 'shadow'], ['낮의 길이', hmK(vals.len), 'day'], ['받는 태양 에너지', `${vals.en.toFixed(0)}%`, 'heat']] }; },
+    calc() { const out = []; [['v', '자전축 수직'], ['t', '자전축 기울임']].forEach(([k, n]) => { const r = st.rec[k]; const ks = PTS.map(x => x[1]).filter(x => r[x]); if (ks.length) { out.push(n); ks.forEach(x => out.push(`${x} ${Math.round(r[x].alt)}° ${r[x].L.toFixed(1)}cm`)); } });
+      return out.length ? out : ['기록', '가~라 자리에서', '그림자를 재면', '여기에 적힙니다']; },
+    dragTargets: () => [gm], plane: new THREE.Plane(new THREE.Vector3(0, 1, 0), -LC.y),
+    dragStart() { st.orbit = false; }, dragMove(p) { let th = Math.atan2(-(p.z - LC.z), p.x - LC.x) / D2R; const snap = PTS.find(([t]) => Math.abs(((th - t + 540) % 360) - 180) < 6); if (snap) th = snap[0]; setTh(th); },
+    dragEnd() { ran(); redraw('right'); },
+    update(dt) { bulb.getWorldPosition(lampW); gmat.uniforms.lamp.value.copy(lampW);
+      if (st.orbit) { const prev = st.th; setTh(st.th + dt * 30); PTS.forEach(([t]) => { const a = ((prev - t + 360) % 360), b = ((st.th - t + 360) % 360); if (b < a) { const keep = st.th; st.th = t; place(); st.th = keep; place(); } }); }
+      else place();
+      jar.update(dt); },
+    tour: [
+      { cap: '자전축을 수직으로 세운 지구본입니다. 가 자리에서 우리나라의 그림자를 봅니다.', cam: 'exp', act: () => { st.orbit = false; setTilt(false); setTh(0); } },
+      { cap: '수직인 채로 공전하면 어느 자리에서나 그림자 길이가 같습니다.', cam: 'exp', act: () => { setTilt(false); st.orbit = true; } },
+      { cap: '이번에는 자전축을 기울였습니다. 자전축은 늘 같은 쪽을 향합니다.', cam: 'exp', act: () => { setTilt(true); st.orbit = true; } },
+      { cap: '나 자리에서는 남중 고도가 높고 그림자가 짧습니다. 우리나라는 여름입니다.', cam: 'globe', act: () => { st.orbit = false; setTilt(true); setTh(90); } },
+      { cap: '라 자리에서는 남중 고도가 낮고 그림자가 깁니다. 우리나라는 겨울입니다.', cam: 'globe', act: () => { st.orbit = false; setTh(270); } },
+      { cap: '왼쪽 쪽에서 예측을 고르고 덮개를 들춰 보세요.', cam: 'read' }],
+    expView: { c: [.05, .3, -.2], w: 2.0, h: 1.35 },
+    camPos: { globe: () => { const p = posOf(st.th), o = p.clone().sub(LC).normalize(), sd = new THREE.Vector3(-o.z, 0, o.x), c = p.clone().addScaledVector(o, -.3).addScaledVector(sd, .28); return [W(c.x, LC.y + .3, c.z + .1), W(p.x, LC.y, p.z)]; } } };
+}
+const BUILD = { ch1: chapter1, ch2: chapter2, ch3: chapter3, ch4: chapter4 };
+
+/* ---------- 카메라 ---------- */
+function fitDist(w, d) { const t = Math.tan(camera.fov * PI / 360), a = innerWidth / innerHeight; return Math.max(d / 2 / t, w / 2 / (t * a)); }
+const CAM = {
+  over: () => { const dd = fitDist(4.5, 3.2) * 1.06, tl = .52; return [[0, .2 + dd * Math.cos(tl), .3 + dd * Math.sin(tl)], [0, .2, .3]]; },
+  read: () => { const dd = fitDist(PW, PD * .97), tl = .08; return [[-1.04, TOP + dd * Math.cos(tl), .08 + dd * Math.sin(tl)], [-1.04, TOP, .08]]; },
+  right: () => innerWidth / innerHeight < .9 ? [[1.05, 3.4, 3.6], [1.05, .5, 0]] : [[1.05, 2.2, 3.0], [1.05, .55, -.1]],
+  left: () => CAM.read(),
+  exp: () => { const e = (cur && cur.expView) || { c: [0, .6, -.1], w: 2.1, h: 1.6 }; diagram.updateMatrixWorld(true);
+    const c = diagram.localToWorld(new THREE.Vector3(...e.c)), dd = fitDist(e.w * 1.15, e.h) * 1.1, tl = .42, sx = innerWidth > 760 ? dd * .07 : 0;
+    return [[c.x + sx, c.y + dd * Math.sin(tl), c.z + dd * Math.cos(tl)], [c.x + sx, c.y, c.z]]; },
+};
+let camTween = null;
+function flyTo(name) { let def = cur && cur.camPos && cur.camPos[name]; if (typeof def === 'function') def = def(); def = def || (CAM[name] && CAM[name]()); if (!def) return;
+  if (reduce) { camera.position.set(...def[0]); controls.target.set(...def[1]); return; }
+  camTween = { t: 0, d: 1.4, p0: camera.position.clone(), t0: controls.target.clone(), p1: new THREE.Vector3(...def[0]), t1: new THREE.Vector3(...def[1]) }; }
+
+/* ---------- 장 전환 ---------- */
+let cur = null, curId = null, busy = false;
+const tweens = [];
+function tween(d, fn) { return new Promise(res => { if (reduce) { fn(1); res(); return; } tweens.push({ t: 0, d, fn, res }); }); }
+function clearDiagram() { while (content.children.length) { const c = content.children[0]; content.remove(c);
+  c.traverse(n => { if (n.geometry) n.geometry.dispose(); }); } }
+function build(id) { clearDiagram(); curId = id; cur = BUILD[id](content); stopTour(); updateBar(); lastHud = ''; renderHud(true); }
+async function go(id, dir) {
+  if (busy || id === curId || !BUILD[id]) return; busy = true; closePanels();
+  const fwd = dir != null ? dir > 0 : IDS.indexOf(id) > IDS.indexOf(curId);
+  forceFlat = true; stopTour(); await tween(popK > .02 ? .55 : .01, () => {});
+  const copy = (dst, src) => { const g = dst.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(src, 0, 0, dst.width, dst.height); };
+  if (fwd) { copy(sheetFrontCv, rightCv); drawLeft(sheetBackCv, id, false); }
+  else { copy(sheetBackCv, leftCv); }
+  build(id); popK = 0;
+  if (fwd) redraw('right'); else { redraw('left'); drawRight(sheetFrontCv, id, false); }
+  sheetFrontTex.needsUpdate = sheetBackTex.needsUpdate = true;
+  sheetPivot.visible = true; calcPlane.visible = false;
+  const a0 = fwd ? TILT : PI - TILT, a1 = fwd ? PI - TILT : TILT;
+  await tween(.9, t => { const e = ease(t); sheetPivot.rotation.z = a0 + (a1 - a0) * e; sheetPivot.position.y = Math.sin(e * PI) * .05; });
+  redraw(); sheetPivot.visible = false; calcPlane.visible = true;
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  forceFlat = false; busy = false; announce(); if (viewMode === 'exp' || viewMode === 'read') flyTo(viewMode);
+}
+
+/* ---------- 예측과 덮개 ---------- */
+function pick(i) { const p = prog[curId]; if (p.open || i < 0 || i >= CHAP[curId].opts.length) return; p.pick = i; save(); redraw('left'); updateMenu(); announce(`예측: ${CHAP[curId].opts[i]}`); }
+function ran() { const p = prog[curId]; if (!p.ran) { p.ran = true; save(); updateMenu(); redraw('left'); } }
+function openFlap() {
+  const p = prog[curId], c = CHAP[curId];
+  if (p.pick == null && !p.open) { toast('예측을 먼저 하나 고르세요.'); return; }
+  if (!p.open) { p.open = true; save(); redraw('left'); updateMenu(); }
+  const good = p.pick === c.ans, el = $('#flap');
+  el.innerHTML = `<button class="x" aria-label="닫기">✕</button><p class="eyebrow">왜 그럴까?</p>
+    <p class="verdict ${good ? 'good' : 'miss'}">답: ${c.opts[c.ans]}${good ? ' · 예측이 맞았습니다.' : ` · 고른 예측은 ‘${c.opts[p.pick]}’였습니다.`}</p>${c.explain}
+    <div class="chal"><p class="eyebrow">도전</p><p class="hand">${c.chal}</p>
+      ${c.chalOpts ? `<div class="row">${c.chalOpts.map((o, i) => `<button class="btn ghost" data-ch="${i}">${o}</button>`).join('')}</div>` : `<div class="row"><input id="chIn" inputmode="decimal" aria-label="답 (${c.unit})" placeholder="답"><span>${c.unit}</span><button class="btn" id="chGo">맞는지 보기</button></div>`}
+      <p class="note" id="chNote">${p.solved ? '이미 맞혔습니다.' : ''}</p></div>`;
+  el.hidden = false; $('#menu').hidden = $('#teach').hidden = true;
+  el.querySelector('.x').onclick = () => el.hidden = true;
+  const check = () => { const v = parseFloat($('#chIn').value.replace(/,/g, '')), n = $('#chNote');
+    if (isNaN(v)) { n.textContent = '숫자로 적어 주세요.'; return; }
+    if (Math.abs(v - c.chalAns) <= c.tol) { n.innerHTML = `<b class="good">맞았습니다. ${c.chalAns.toLocaleString('ko-KR')} ${c.unit}</b>`; p.solved = true; save(); updateMenu(); }
+    else n.textContent = '다시 계산해 보세요. ' + c.hint; };
+  if (c.chalOpts) { el.querySelectorAll('[data-ch]').forEach(b => b.onclick = () => { const n = $('#chNote');
+      if (+b.dataset.ch === c.chalAns) { n.innerHTML = `<b class="good">맞았습니다. ${c.chalOpts[c.chalAns]}</b>`; p.solved = true; save(); updateMenu(); } else n.textContent = '다시 생각해 보세요. ' + c.hint; }); return; }
+  $('#chGo').onclick = check; $('#chIn').onkeydown = e => { if (e.key === 'Enter') check(); };
+}
+
+/* ---------- 패널, 막대, 안내 ---------- */
+function closePanels() { $('#menu').hidden = $('#teach').hidden = $('#flap').hidden = true; $('#hud').hidden = false; }
+function updateMenu() {
+  $('#menu').innerHTML = `<button class="x" aria-label="닫기">✕</button><p class="eyebrow">차례</p><h2>계절의 변화</h2>
+    <p class="small">6학년 2학기 과학 · 1. 계절의 변화</p>
+    <ul class="toc">${IDS.map(id => { const p = prog[id], n = [p.pick != null, p.ran, p.open].filter(Boolean).length;
+      return `<li><button data-go="${id}" aria-current="${id === curId}"><span class="n">${CHAP[id].no}장</span><span class="tt">${CHAP[id].title}</span><span class="st">${n === 3 ? (p.solved ? '도전까지 끝' : '다 읽음') : n ? `${n}/3 단계` : '시작 전'}</span></button></li>`; }).join('')}</ul>
+    <p class="small" style="margin-top:12px">단계: 예측 고르기 · 실험하기 · 덮개 들추기</p>`;
+  $('#menu').querySelector('.x').onclick = () => $('#menu').hidden = true;
+}
+$('#teach').innerHTML = `<button class="x" aria-label="닫기">✕</button><p class="eyebrow">교사용 메모</p><h2>이 책을 쓰는 방법</h2>
+  <h3>흐름</h3><p>각 장은 예측 → 실험 → 확인 순서입니다. 왼쪽 쪽의 ‘왜 그럴까?’ 덮개는 예측을 하나 골라야 열리므로, 학생이 먼저 자기 생각을 정하게 됩니다. 아래 ▶ 단추를 누르면 장면을 따라가며 그림을 차례로 보여 줍니다.</p>
+  <h3>차시 연결</h3><ul><li>1장: 3~4차시 하루 동안 태양 고도, 그림자 길이, 기온</li><li>2장: 5~6차시 계절별 태양의 남중 고도와 낮의 길이</li><li>3장: 7차시 태양 고도와 태양 에너지양</li><li>4장: 8~9차시 계절 변화의 원인 (모형실험)</li></ul>
+  <h3>조작</h3><ul><li>끌어서 돌리기, 휠이나 두 손가락으로 확대</li><li>화면 옮기기: 아래 ✥ 단추를 켜고 끌기, 또는 Shift+끌기</li><li>⚗ 실험 보기: 실험 장면 앞으로 다가갑니다 (오른쪽 그림 더블클릭, E)</li><li>📖 글 읽기: 왼쪽 쪽을 정면에서 봅니다 (왼쪽 쪽 더블클릭, R)</li><li>1장: 시각 −/+ 또는 ‘하루 흐르기’</li><li>2장: 날짜 −/+, ‘하루 흐르기’, ‘모든 달 찍기’</li><li>3장: 손전등을 끌어 각도 바꾸기</li><li>4장: 지구본을 끌어 공전시키기, 자전축 수직/기울임</li><li>키보드: ← → 장 넘기기, 1~4 예측 고르기</li></ul>
+  <h3>장마다 짚을 점</h3><ul>
+    <li><b>1장</b> 태양 고도가 가장 높은 때(12시 30분 무렵)와 기온이 가장 높은 때(14시 30분 무렵)는 다릅니다. 정확한 시간 간격보다 차이가 있다는 것을 알아차리는 데 초점을 둡니다.</li>
+    <li><b>2장</b> 낮의 길이는 달마다 계단처럼 바뀌지 않고 이어서 바뀝니다. 여름에 남중 고도가 가장 높고 겨울에 가장 낮다는 것을 그래프를 읽어 스스로 찾게 합니다.</li>
+    <li><b>3장</b> 숫자의 정확한 값보다 각도에 따른 변화에 초점을 둡니다. 손전등은 태양, 스마트 기기는 땅, 손전등의 각은 태양 고도임을 연결해 줍니다.</li>
+    <li><b>4장</b> ‘여름에는 지구가 태양과 가까워서 덥다’는 생각을 바로잡습니다. 공전 길을 원으로 그려 거리가 같아도 계절이 바뀜을 보여 줍니다.</li></ul>
+  <h3>수치</h3><p>태양 고도, 남중 고도, 낮의 길이는 서울(북위 37.6°, 동경 127.0°)을 기준으로 계산했습니다. 지도서 자료(2023년 9월 23일, 2024년 서울)와 1~2분, 1° 안팎의 차이가 있을 수 있습니다. 1장의 기온, 3장의 빛의 세기 숫자, 4장의 그림자 길이는 모형으로 정한 값입니다.</p>
+  <h3>기록</h3><p>진행 표시는 이 브라우저에만 저장됩니다.</p><button class="lnk" id="wipe">기록 지우기</button>`;
+$('#teach').querySelector('.x').onclick = () => $('#teach').hidden = true;
+$('#wipe').onclick = () => { prog = { ch1: {}, ch2: {}, ch3: {}, ch4: {} }; save(); redraw(); updateMenu(); toast('기록을 지웠습니다.'); };
+$('#bMenu').onclick = () => { const m = $('#menu'); const show = m.hidden; closePanels(); updateMenu(); m.hidden = !show; };
+$('#bTeach').onclick = () => { const m = $('#teach'); const show = m.hidden; closePanels(); m.hidden = !show; $('#hud').hidden = show; };
+$('#teach').addEventListener('click', e => { if (e.target.closest('.x')) $('#hud').hidden = false; });
+let hudOpen = !matchMedia('(max-width:560px)').matches, lastHud = '';
+const HC = { pot: 'var(--pot)', kin: 'var(--kin)', heat: 'var(--heat)', light: 'var(--light)', elec: 'var(--elec)', sun: '#d97800', shadow: '#1f6fd6', temp: '#c63a2e', day: '#1f8a6a' };
+function hudRow([l, v, k, sum]) { return `<div class="hr${sum ? ' sum' : ''}"><span>${k ? `<i style="background:${HC[k]}"></i>` : ''}${l}</span><b>${v}</b></div>`; }
+function renderHud(force) { if (!cur || !cur.hud) return; const h = cur.hud(), ctl = cur.controls ? cur.controls() : [], names = ctl.map(k => k.label);
+  const ctlHtml = ctl.map((k, i) => k.type === 'toggle' ? `<div class="hr"><span>${k.label}</span><span class="seg"><button data-c="${i}:0" aria-pressed="${!k.value}">${k.off}</button><button data-c="${i}:1" aria-pressed="${k.value}">${k.on}</button></span></div>`
+    : k.type === 'step' ? `<div class="hr"><span>${k.label}</span><span class="seg"><button data-c="${i}:-" aria-label="${k.label} 줄이기">−</button><b>${k.value}</b><button data-c="${i}:+" aria-label="${k.label} 늘리기">+</button></span></div>` : '').join('');
+  const btnHtml = ctl.some(k => k.type === 'btn') ? `<div class="hbtns">${ctl.map((k, i) => k.type === 'btn' ? `<button data-c="${i}:b"${k.primary ? ' class="pri"' : ''}>${k.label}</button>` : '').join('')}</div>` : '';
+  const html = hudOpen ? `<h4>바꾸는 값 (변인)</h4>${ctlHtml}${h.vars.filter(v => !names.includes(v[0])).map(hudRow).join('')}${btnHtml}<h4>재는 값</h4>${h.vals.map(hudRow).join('')}` : '';
+  if (html !== lastHud || force) { lastHud = html; $('#hudB').innerHTML = html; } }
+$('#hudB').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b || !cur || busy) return;
+  const [i, a] = b.dataset.c.split(':'), k = cur.controls()[+i]; if (!k) return;
+  if (k.type === 'toggle') k.set(a === '1'); else if (k.type === 'step') (a === '+' ? k.inc : k.dec)(); else if (k.type === 'btn') k.act();
+  redraw('right'); renderHud(true); });
+$('#hudT').onclick = () => { hudOpen = !hudOpen; $('#hudT').textContent = hudOpen ? '접기' : '펼치기'; $('#hudT').setAttribute('aria-expanded', hudOpen); renderHud(true); };
+if (!hudOpen) $('#hudT').textContent = '펼치기';
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+let viewMode = 'over', panMode = false;
+function syncViewBtns() { $('#bRead').setAttribute('aria-pressed', viewMode === 'read'); $('#bExp').setAttribute('aria-pressed', viewMode === 'exp'); $('#bPan').setAttribute('aria-pressed', panMode); }
+function setView(m, force) { if (viewMode === m && !force) m = 'over'; viewMode = m; tour.on = false; flyTo(m); syncViewBtns(); updateBar();
+  if (m === 'exp') toast('실험 보기: 끌면 실험을 중심으로 돌아갑니다. 다시 누르면 전체 보기로 돌아갑니다.'); }
+function setPan(on) { panMode = on; const M = THREE.MOUSE, T = THREE.TOUCH;
+  controls.mouseButtons = on ? { LEFT: M.PAN, MIDDLE: M.DOLLY, RIGHT: M.ROTATE } : { LEFT: M.ROTATE, MIDDLE: M.DOLLY, RIGHT: M.PAN };
+  controls.touches = on ? { ONE: T.PAN, TWO: T.DOLLY_ROTATE } : { ONE: T.ROTATE, TWO: T.DOLLY_PAN };
+  syncViewBtns(); toast(on ? '이동 켬: 끌면 화면이 옮겨집니다.' : '이동 끔: 끌면 화면이 돌아갑니다.'); }
+$('#bRead').onclick = () => setView('read');
+$('#bExp').onclick = () => setView('exp');
+$('#bPan').onclick = () => setPan(!panMode);
+controls.addEventListener('start', () => { if (viewMode === 'read') { viewMode = 'over'; syncViewBtns(); } camTween = null; });
+canvas.addEventListener('dblclick', e => { cast(e); if (ray.intersectObject(leftPage, false).length) setView('read', true); else if (ray.intersectObjects([hoverBox, rightPage], false).length) setView('exp', true); });
+$('#bPrev').onclick = () => go(IDS[IDS.indexOf(curId) - 1], -1);
+$('#bNext').onclick = () => go(IDS[IDS.indexOf(curId) + 1], 1);
+
+let tour = { on: false, i: -1, t: 0 };
+function updateBar() {
+  const c = CHAP[curId]; $('#capNo').textContent = c.no;
+  $('#capTx').textContent = tour.i >= 0 ? cur.tour[tour.i].cap : c.title;
+  $('#steps').innerHTML = cur.tour.map((s, i) => `<button class="${i === tour.i ? 'on' : ''}" data-step="${i}" aria-label="장면 ${i + 1}"></button>`).join('');
+  $('#playIco').innerHTML = tour.on ? '<path d="M8 5v14M16 5v14" style="stroke-width:3"/>' : '<path d="M8 5l11 7-11 7z" style="fill:var(--ink);stroke:none"/>';
+  $('#bPlay').setAttribute('aria-label', tour.on ? '장면 멈추기' : '장면 따라가기');
+  $('#bPrev').disabled = IDS.indexOf(curId) === 0; $('#bNext').disabled = IDS.indexOf(curId) === IDS.length - 1;
+  $('#bPrev').style.opacity = $('#bPrev').disabled ? .35 : 1; $('#bNext').style.opacity = $('#bNext').disabled ? .35 : 1;
+}
+function setStep(i) { tour.i = i; tour.t = 0; const s = cur.tour[i]; if (s.act) s.act(); flyTo(s.cam); updateBar(); announce(s.cap); }
+function stopTour() { tour = { on: false, i: -1, t: 0 }; }
+$('#steps').onclick = e => { const b = e.target.closest('[data-step]'); if (b) { tour.on = false; setStep(+b.dataset.step); } };
+$('#bPlay').onclick = () => { if (tour.on) { tour.on = false; updateBar(); return; } tour.on = true; setStep(tour.i < 0 || tour.i >= cur.tour.length - 1 ? 0 : tour.i + 1); };
+
+let toastT = null;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.style.opacity = 1; clearTimeout(toastT); toastT = setTimeout(() => t.style.opacity = 0, 2600); }
+function announce(extra) { const c = CHAP[curId]; $('#sr').textContent = extra || `${c.no}장 ${c.title}. ${c.intro} 예측: ${c.q} ${c.opts.map((o, i) => `${i + 1}번 ${o}`).join(', ')}`; }
+
+/* ---------- 포인터 ---------- */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function cast(e) { const r = canvas.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera); }
+function pageHit(e) { cast(e); const h = ray.intersectObjects([leftPage, rightPage], false)[0]; if (!h || !h.uv) return null;
+  const x = h.uv.x * PCW, y = (1 - h.uv.y) * PCH, list = h.object === leftPage ? hot.left : hot.right;
+  return list.find(s => x >= s.x && x <= s.x + s.w && y >= s.y && y <= s.y + s.h) || null; }
+let down = null, dragging = false;
+const inv = new THREE.Matrix4();
+function dragPoint() { inv.copy(content.matrixWorld).invert(); const r = ray.ray.clone().applyMatrix4(inv); const p = new THREE.Vector3(); return r.intersectPlane(cur.plane, p) ? p : null; }
+function overDrawing(e) { cast(e); return ray.intersectObjects([hoverBox, rightPage], false).length > 0; }
+canvas.addEventListener('pointerleave', () => { hoverOn = false; });
+canvas.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse') { const o = overDrawing(e); if (o) { touchHold = true; lastHover = performance.now(); } else { cast(e); if (ray.intersectObject(leftPage, false).length) touchHold = false; } }
+  down = { x: e.clientX, y: e.clientY }; if (busy || !cur || !cur.dragTargets) return;
+  cast(e); if (ray.intersectObjects(cur.dragTargets(), false).length) { dragging = true; controls.enabled = false; canvas.setPointerCapture(e.pointerId); tour.on = false; cur.dragStart(); updateBar(); }
+}, { capture: true });
+canvas.addEventListener('pointermove', e => {
+  if (dragging) { cast(e); const p = dragPoint(); if (p) cur.dragMove(p); return; }
+  if (e.pointerType === 'mouse' && !busy) { hoverOn = overDrawing(e); if (hoverOn) lastHover = performance.now(); }
+  if (e.buttons || busy || !cur) return;
+  const hs = pageHit(e); let over = !!hs;
+  if (!over && cur.dragTargets) over = ray.intersectObjects(cur.dragTargets(), false).length > 0;
+  if (!over && cur.clickTargets) over = ray.intersectObjects(cur.clickTargets(), false).length > 0;
+  canvas.style.cursor = over ? 'pointer' : 'grab';
+});
+canvas.addEventListener('pointerup', e => {
+  if (dragging) { dragging = false; controls.enabled = true; cur.dragEnd(); return; }
+  if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6 || busy || !cur) return;
+  const hs = pageHit(e); if (hs) { hs.act(); if (!$('#flap').hidden || hs.act === openFlap) {} redraw(); return; }
+  if (cur.clickTargets) { cast(e); if (ray.intersectObjects(cur.clickTargets(), false).length) cur.click(); }
+});
+addEventListener('keydown', e => { if (e.target.closest('input')) return;
+  if (e.key === 'ArrowRight') $('#bNext').click(); else if (e.key === 'ArrowLeft') $('#bPrev').click();
+  else if (/^[1-4]$/.test(e.key) && curId) { pick(+e.key - 1); }
+  else if (e.key === 'Escape') closePanels(); else if (e.key === 'r' || e.key === 'R') setView('read'); else if (e.key === 'e' || e.key === 'E') setView('exp'); });
+
+/* ---------- 크기와 반복 ---------- */
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); lineMats.forEach(m => m.resolution.set(innerWidth, innerHeight)); }
+addEventListener('resize', resize); resize();
+let last = performance.now(), calcT = 0, lastCalc = '';
+function loop(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  for (let i = tweens.length - 1; i >= 0; i--) { const w = tweens[i]; w.t = Math.min(1, w.t + dt / w.d); w.fn(w.t); if (w.t >= 1) { tweens.splice(i, 1); w.res(); } }
+  if (camTween) { const k = camTween; k.t = Math.min(1, k.t + dt / k.d); const e = ease(k.t); camera.position.lerpVectors(k.p0, k.p1, e); controls.target.lerpVectors(k.t0, k.t1, e); if (k.t >= 1) camTween = null; }
+  const nowT = performance.now(), step = tour.on && tour.i >= 0 && cur ? cur.tour[tour.i] : null;
+  const want = !forceFlat && (dragging || touchHold || hoverOn || viewMode === 'exp' || nowT - lastHover < 650 || (step && step.cam !== 'read'));
+  popK = reduce ? (want ? 1 : 0) : clamp(popK + (want ? dt / .8 : -dt / .55), 0, 1);
+  popE = ease(popK);
+  hinge.rotation.x = -PI / 2 * (1 - popE) - (want && popK < 1 ? Math.sin(PI * popK) * .06 : 0);
+  flat.scale.z = .02 + .98 * popE; flat.position.z = (1 - popE) * (2.15 * flat.scale.z + .004);
+  if (cur) { cur.update(dt);
+    const showS = popE > .9; content.traverse(o => { if (o.isSprite) { if (!o.userData.managed) o.visible = showS; else if (!showS) o.visible = false; } });
+    calcT += dt; if (calcT > .15) { calcT = 0; const s = cur.calc().join('|'); if (s !== lastCalc) { lastCalc = s; drawCalc(); } renderHud(); }
+    if (tour.on && tour.i >= 0) { tour.t += dt; if (tour.t > 6) { if (tour.i < cur.tour.length - 1) setStep(tour.i + 1); else { tour.on = false; updateBar(); } } } }
+  controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop);
+}
+
+/* ---------- 시작 ---------- */
+async function start() {
+  const all = JSON.stringify(CHAP) + $('#teach').textContent + Object.values(BUILD).map(f => f.toString()).join('') + '0123456789.%·→×½²₀₁₂₃ⁿ⁰−+=÷√()…?↑↓℃°';
+  if (document.fonts && document.fonts.load) {
+    try { await Promise.race([Promise.all([document.fonts.load(`40px "Gowun Batang"`, all), document.fonts.load(`700 40px "Gowun Batang"`, all), document.fonts.load(`40px "Nanum Pen Script"`, all)]), new Promise(r => setTimeout(r, 4000))]); } catch (e) {}
+    document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', () => { if (cur) { redraw(); } });
+  }
+  const id = IDS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'ch1';
+  const o = CAM.over(); camera.position.set(o[0][0], o[0][1] + 1.5, o[0][2] + 1.5); controls.target.set(...o[1]);
+  build(id); redraw(); updateMenu(); announce();
+  $('#loading').style.opacity = 0; setTimeout(() => $('#loading').remove(), 700);
+  flyTo('over');
+  requestAnimationFrame(loop);
+  setTimeout(() => toast(matchMedia('(hover: hover)').matches ? '오른쪽 그림에 마우스를 올리면 그림이 일어섭니다.' : '오른쪽 그림을 누르면 그림이 일어섭니다.'), 1200);
+}
+start();
+})();
+</script>
+</html>
